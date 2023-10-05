@@ -1,0 +1,200 @@
+header {
+    background-color:#219ebc;
+
+    color: white;
+    padding: 16px 0;
+}
+
+@media screen and (max-width:600px) {
+/* 画面サイズが600px以下の場合に適用 */
+    header {
+        width: 800px;
+    }
+}
+
+body {
+    background-color:f8f9fa;
+    font-family:Arial, Helvetica, sans-serif;
+    color: #495057;
+}
+
+.title {
+    font-family:Arial, Helvetica, sans-serif
+}
+
+.inputTable {
+    border:none; 
+    width: 100px; 
+    text-align: center; 
+    background-color: transparent;
+}
+
+.table {
+    border-collapse: collapse;
+    font-weight: lighter;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+thead {
+    color: white;
+    background-color:#219ebc;
+}
+
+td {
+    width: 100px;
+    text-align: center;
+    background-color:#219ebc;
+}
+
+.th_Ec {
+    background-color:rgba(189,178,255,1);
+    text-align: left;
+    font-size: 12px;
+}
+
+.th_Re {
+    background-color:rgba(160,196,255,1);
+    text-align: left;
+    font-size: 12px;
+}
+
+.th_Cu {
+    background-color:rgba(255,198,255,1);
+    text-align: left;
+    font-size: 12px;
+}
+
+.th_Li {
+    background-color:rgba(155,246,255,1);
+    text-align: left;
+    font-size: 12px;
+}
+
+.th_En {
+    background-color:rgba(202,255,191,1);
+    text-align: left;
+    font-size: 12px;
+}
+
+.th_Ac {
+    background-color:rgba(255,214,165,1);
+    text-align: left;
+    font-size: 12px;
+}
+
+.td_Ec {
+    background-color: rgba(189,178,255,.3);
+    font-size: 12px;
+}
+
+.td_Re {
+    background-color: rgba(160,196,255,.3);
+    font-size: 12px;
+}
+
+.td_Cu {
+    background-color: rgba(255,198,255,.3);
+    font-size: 12px;
+}
+
+.td_Li {
+    background-color: rgba(155,246,255,.3);
+    font-size: 12px;
+}
+
+.td_En {
+    background-color: rgba(202,255,191,.3);
+    font-size: 12px;
+}
+
+.td_Ac {
+    background-color: rgba(255,214,165,.3);
+    font-size: 12px;
+}
+
+.select {
+    height: 30px;
+    width: 150px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.btn {
+    height: 30px;
+    width: 130px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #219ebc;
+    border-width: 0px;
+    border-radius: 30px;
+}
+
+.btn:hover {
+    background-color: #ffffff;
+    border-color: #219ebc;
+    border-width: 1px;
+    color: #219ebc;
+}
+
+.box {
+    float: left;
+    margin: 20px;
+}
+
+/* === ドロワーメニュー用のcss === */
+.container {
+    max-width: 100%;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-block {
+    flex: 1 1 auto;
+}
+
+.hamburger {
+    flex: 0 0 32px;
+    align-self: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+#nav {
+    position: fixed;
+    left: -330px;
+    top: 0;
+    background-color: rgba(0,0,0,.8);
+    color: white;
+    width: 310px;
+    height: 100%;
+    padding-top: 50px;
+    padding-left: 20px;
+}
+
+/* ドロワーメニューが開かれた時の移動距離 */
+.show {
+    transform: translate3d(330px, 0, 0);
+}
+
+/* ドロワーメニューの開閉のアニメーション */
+#nav {
+    transition: transform 0.3s;
+}
+
+.active {
+    background-color:rgba(0,0,0,.3);
+    color: white;
+  }
+
+#close_nav {
+    text-align: right;
+    padding-right: 20px;
+}
