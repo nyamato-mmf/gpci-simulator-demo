@@ -6,53 +6,6 @@ jQuery.getJSON("./json/gpci2020.json", function(data){
 });
 
 
-//Initialize data
-var chartData = [
-  {name: "Economy", color: "rgba(189,178,255,1)"},
-  {name: "Research and Development", color: 'rgba(160,196,255,1)'},
-  {name: "Cultural Interaction", color: 'rgba(255,198,255,1)'},
-  {name: "Livability", color: 'rgba(155,246,255,1)'},
-  {name: "Environment", color: 'rgba(202,255,191,1)'},
-  {name: "Accessibility", color: 'rgba(255,214,165,1)'}
- ];
-
-
-//Initialize legend
-var legendItemSize = 18;
-var legendSpacing = 8;
-var xOffset = 0;
-var yOffset = 0;
-var legend = d3
-.select('#legend')
-.append('svg')
-    .attr('width', "300px")
-    .attr('heigh', "400px")
-    .selectAll('.legendItem')
-    .data(chartData);
-
-//Create legend items
-legend
-.enter()
-.append('rect')
-.attr('class', 'legendItem')
-.attr('width', legendItemSize)
-.attr('height', legendItemSize)
-.style('fill', d => d.color)
-.attr('transform',
-        (d, i) => {
-            var x = xOffset;
-            var y = yOffset + (legendItemSize + legendSpacing) * i;
-            return `translate(${x}, ${y})`;
-        });
-
-//Create legend labels
-legend
-.enter()
-.append('text')
-.attr('x', xOffset + legendItemSize + 5)
-.attr('y', (d, i) => yOffset + (legendItemSize + legendSpacing) * i + 12)
-.text(d => d.name);  
-
 
 // Set initial graph dataset (copy "gpci2020_total.json" and paste it here)
 gpci2023_total = [
@@ -963,8 +916,32 @@ function draw(){
       return "black";}
   });
 
+};
 
-  //Initialize data
+// Highlight edited cells in gray
+jQuery(function(){
+  var cell = $('.inputTable');
+  cell.change(function(){
+     $(this).addClass('active');
+  });
+});
+
+// Menu bar
+jQuery(function(){
+  $("#open_nav").on("click", function(){
+      $("#nav").toggleClass("show");
+  })
+});
+
+jQuery(function(){
+  $("nav").on("click", function(){
+      $("#nav").removeClass("show");
+  })
+});
+
+
+
+//Initialize data
 var chartData = [
   {name: "Economy", color: "rgba(189,178,255,1)"},
   {name: "Research and Development", color: 'rgba(160,196,255,1)'},
@@ -1010,34 +987,6 @@ legend
 .attr('x', xOffset + legendItemSize + 5)
 .attr('y', (d, i) => yOffset + (legendItemSize + legendSpacing) * i + 12)
 .text(d => d.name);  
-
-
-};
-
-// Highlight edited cells in gray
-jQuery(function(){
-  var cell = $('.inputTable');
-  cell.change(function(){
-     $(this).addClass('active');
-  });
-});
-
-// Menu bar
-jQuery(function(){
-  $("#open_nav").on("click", function(){
-      $("#nav").toggleClass("show");
-  })
-});
-
-jQuery(function(){
-  $("nav").on("click", function(){
-      $("#nav").removeClass("show");
-  })
-});
-
-
-
-
 
 
 
