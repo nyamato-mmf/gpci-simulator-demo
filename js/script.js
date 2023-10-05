@@ -571,15 +571,13 @@ function selectCity(){
 
         
   // Coloring the target city
-  svg.selectAll("rect")
-  .data(gpci2023_total)
-  .transition()
-  .duration(1000)
+  svg.selectAll("text")
   .attr("fill", function(d){
-    var item = d.city;
+    var item = d;
     if (item === target) {
-      return "#e76f51";
-    }
+      return "red";
+    } else {
+      return "black";}
   });
  
 
@@ -909,15 +907,13 @@ function draw(){
 
 
   // Coloring the target city
-  svg.selectAll("rect")
-  .data(gpci2020_sim)
-  .transition()
-  .duration(1000)
+  svg.selectAll("text")
   .attr("fill", function(d){
-    var item = d.city;
+    var item = d;
     if (item === target) {
-      return "#e76f51";
-    } 
+      return "red";
+    } else {
+      return "black";}
   });
 
 };
