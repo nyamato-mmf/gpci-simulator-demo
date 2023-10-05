@@ -569,8 +569,19 @@ function selectCity(){
         if (item.city === target) return true;
       });
 
-
-  
+        
+  // Coloring the target city
+  svg.selectAll("rect")
+  .data(gpci2023_total)
+  .transition()
+  .duration(1000)
+  .attr("fill", function(d){
+    var item = d.city;
+    if (item === target) {
+      return "#e76f51";
+    }
+  });
+ 
 
   // Ec
   document.getElementById("id_01").value = parseFloat(targetScore[0]["01_Nominal GDP"]).toFixed(1);
@@ -661,18 +672,7 @@ jQuery("input[type=number]").on("change", function(){
   }
 });
 
-  
-  // Coloring the target city
-  svg.selectAll("text")
-  .data(gpci2020)
-  .transition()
-  .duration(1000)
-  .style("fill", function(d){
-    var item = d.city;
-    if (item === target) {
-      return "#e76f51";
-    }
-  });
+
 
 
 // Get scores of target city's simulation scores and update the graph
@@ -908,21 +908,17 @@ function draw(){
     .attr("height", y.bandwidth())
 
 
-/*
-    // Coloring the target city
-    svg.selectAll("rect")
-    .data(gpci2020_sim)
-    .transition()
-    .duration(1000)
-    .attr("fill", function(d){
-      var item = d.city;
-      if (item === target) {
-        return "#e76f51";
-      } else {
-        return "#4cc9f0";
-      }
-    });
-    */
+  // Coloring the target city
+  svg.selectAll("rect")
+  .data(gpci2020_sim)
+  .transition()
+  .duration(1000)
+  .attr("fill", function(d){
+    var item = d.city;
+    if (item === target) {
+      return "#e76f51";
+    } 
+  });
 
 };
 
