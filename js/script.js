@@ -5,7 +5,7 @@ jQuery.getJSON("./json/gpci2020.json", function(data){
   gpci2020.push(data);
 });
 
-
+console.log(gpci2020)
 
 // Set initial graph dataset (copy "gpci2020_total.json" and paste it here)
 gpci2023_total = [
