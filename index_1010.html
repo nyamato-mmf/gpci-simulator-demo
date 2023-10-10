@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPCI Simulator Demo</title>
+    <link rel="icon" href="./img/favicon.ico">
+
+    <!-- CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v6.js"></script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <header>
+            <div class="container">
+                <div class="hamburger" id="open_nav">
+                    <img src="./img/hamburger.png" alt="">
+                </div>
+                <div class="title-block">
+                    <h1 class="title">GPCI Simulator</h1>
+                </div>
+    
+            </div>
+        </header>
+
+    <section class="box">
+        <form>
+            <!-- Select list-->
+            <select id="city" class="select">
+                <!-- copy "cityList.xlsx" and paste it here -->
+                <option>--Select a city--</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="London">London</option>
+                <option value="Paris">Paris</option>
+                <option value="Brussels">Brussels</option>
+                <option value="Amsterdam">Amsterdam</option>
+                <option value="Geneva">Geneva</option>
+                <option value="Frankfurt">Frankfurt</option>
+                <option value="Berlin">Berlin</option>
+                <option value="Milan">Milan</option>
+                <option value="Zurich">Zurich</option>
+                <option value="Copenhagen">Copenhagen</option>
+                <option value="Vienna">Vienna</option>
+                <option value="Stockholm">Stockholm</option>
+                <option value="Istanbul">Istanbul</option>
+                <option value="Cairo">Cairo</option>
+                <option value="Moscow">Moscow</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Bangkok">Bangkok</option>
+                <option value="Kuala Lumpur">Kuala Lumpur</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Hong Kong">Hong Kong</option>
+                <option value="Beijing">Beijing</option>
+                <option value="Shanghai">Shanghai</option>
+                <option value="Taipei">Taipei</option>
+                <option value="Seoul">Seoul</option>
+                <option value="Fukuoka">Fukuoka</option>
+                <option value="Osaka">Osaka</option>
+                <option value="Tokyo">Tokyo</option>
+                <option value="Sydney">Sydney</option>
+                <option value="Vancouver">Vancouver</option>
+                <option value="San Francisco">San Francisco</option>
+                <option value="Los Angeles">Los Angeles</option>
+                <option value="Mexico City">Mexico City</option>
+                <option value="Chicago">Chicago</option>
+                <option value="Toronto">Toronto</option>
+                <option value="Washington, DC">Washington, DC</option>
+                <option value="New York">New York</option>
+                <option value="Boston">Boston</option>
+                <option value="Sao Paulo">Sao Paulo</option>
+                <option value="Johannesburg">Johannesburg</option>
+                <option value="Jakarta">Jakarta</option>
+                <option value="Buenos Aires">Buenos Aires</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Dublin">Dublin</option>
+                <option value="Helsinki">Helsinki</option>
+                <option value="Tel Aviv">Tel Aviv</option>
+                <option value="Melbourne">Melbourne</option>
+            </form>
+    
+            <!-- Button to show the selected city's score-->
+            <input type="button" value="Show scores" class="btn" onclick="selectCity()"/>
+    
+            <!-- Table-->
+            <table class="table" border="1">
+                <thead>
+                    <tr><th>Indicator</th><th>Score</th></tr>
+                </thead>
+                <tbody id="targetTable">
+                    <!-- copy "indicatorList.xlsx" and paste it here -->
+                    <tr><th class="th_Ec">01_Nominal GDP</th><td class="td_Ec"><input id="id_01" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">02_GDP per Capita</th><td class="td_Ec"><input id="id_02" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">03_GDP Growth Rate</th><td class="td_Ec"><input id="id_03" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">04_Economic Freedom</th><td class="td_Ec"><input id="id_04" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">05_Stock Market Capitalization</th><td class="td_Ec"><input id="id_05" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">06_World's Top 500 Companies</th><td class="td_Ec"><input id="id_06" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">07_Total Employment</th><td class="td_Ec"><input id="id_07" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">08_Employees in Business Support Services</th><td class="td_Ec"><input id="id_08" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">09_Wage Level</th><td class="td_Ec"><input id="id_09" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">10_Availability of Skilled Human Resources</th><td class="td_Ec"><input id="id_10" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">11_Variety of Workplace Options</th><td class="td_Ec"><input id="id_11" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">12_Corporate Tax Rate</th><td class="td_Ec"><input id="id_12" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ec">13_Political, Economic and Business Risk</th><td class="td_Ec"><input id="id_13" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">14_Number of Researchers</th><td class="td_Re"><input id="id_14" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">15_World's Top Universities</th><td class="td_Re"><input id="id_15" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">16_Research and Development Expenditure</th><td class="td_Re"><input id="id_16" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">17_Number of International Students</th><td class="td_Re"><input id="id_17" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">18_Academic Performance</th><td class="td_Re"><input id="id_18" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">19_Number of Patents</th><td class="td_Re"><input id="id_19" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">20_Winners of Prizes in Science and Technology</th><td class="td_Re"><input id="id_20" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Re">21_Number of Startups</th><td class="td_Re"><input id="id_21" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">22_Number of International Conferences</th><td class="td_Cu"><input id="id_22" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">23_Number of Cultural Events</th><td class="td_Cu"><input id="id_23" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">24_Cultural Content Export Value</th><td class="td_Cu"><input id="id_24" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">25_Art Market Environment</th><td class="td_Cu"><input id="id_25" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">26_Tourist Attractions</th><td class="td_Cu"><input id="id_26" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">27_Proximity to World Heritage Sites</th><td class="td_Cu"><input id="id_27" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">28_Nightlife Options</th><td class="td_Cu"><input id="id_28" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">29_Number of Theaters</th><td class="td_Cu"><input id="id_29" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">30_Number of Museums</th><td class="td_Cu"><input id="id_30" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">31_Number of Stadiums</th><td class="td_Cu"><input id="id_31" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">32_Number of Hotel Rooms</th><td class="td_Cu"><input id="id_32" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">33_Number of Luxury Hotel Rooms</th><td class="td_Cu"><input id="id_33" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">34_Attractiveness of Shopping Options</th><td class="td_Cu"><input id="id_34" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">35_Attractiveness of Dining Options</th><td class="td_Cu"><input id="id_35" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">36_Number of Foreign Residents</th><td class="td_Cu"><input id="id_36" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Cu">37_Number of Foreign Visitors</th><td class="td_Cu"><input id="id_37" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">38_Total Unemployment Rate</th><td class="td_Li"><input id="id_38" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">39_Total Working Hours</th><td class="td_Li"><input id="id_39" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">40_Workstyle Flexibility</th><td class="td_Li"><input id="id_40" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">41_Housing Rent</th><td class="td_Li"><input id="id_41" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">42_Price Level</th><td class="td_Li"><input id="id_42" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">43_Number of Murders</th><td class="td_Li"><input id="id_43" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">44_Economic Risk of Natural Disaster</th><td class="td_Li"><input id="id_44" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">45_Life Expectancy</th><td class="td_Li"><input id="id_45" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">46_Social Freedom and Equality</th><td class="td_Li"><input id="id_46" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">47_Risk to Mental Health</th><td class="td_Li"><input id="id_47" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">48_Number of Medical Doctors</th><td class="td_Li"><input id="id_48" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">49_ICT Readiness</th><td class="td_Li"><input id="id_49" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">50_Number of Retail Shops</th><td class="td_Li"><input id="id_50" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Li">51_Number of Restaurants</th><td class="td_Li"><input id="id_51" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">52_Commitment to Climate Action</th><td class="td_En"><input id="id_52" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">53_Renewable Energy Rate</th><td class="td_En"><input id="id_53" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">54_Waste Recycle Rate</th><td class="td_En"><input id="id_54" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">55_CO2 Emissions per Capita</th><td class="td_En"><input id="id_55" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">56_Air Quality</th><td class="td_En"><input id="id_56" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">57_Comfort Level of Temperature</th><td class="td_En"><input id="id_57" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">58_Water Quality</th><td class="td_En"><input id="id_58" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">59_Urban Greenery</th><td class="td_En"><input id="id_59" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_En">60_Satisfaction with Urban Cleanliness</th><td class="td_En"><input id="id_60" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">61_Cities with Direct International Flights</th><td class="td_Ac"><input id="id_61" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">62_International Freight Flows</th><td class="td_Ac"><input id="id_62" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">63_Number of Air Passengers</th><td class="td_Ac"><input id="id_63" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">64_Number of Arrivals and Departures at the Airport</th><td class="td_Ac"><input id="id_64" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">65_Station Density</th><td class="td_Ac"><input id="id_65" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">66_Public Transportation Use</th><td class="td_Ac"><input id="id_66" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">67_Travel Time to Airports</th><td class="td_Ac"><input id="id_67" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">68_Commuting Time</th><td class="td_Ac"><input id="id_68" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">69_Traffic Congestion</th><td class="td_Ac"><input id="id_69" type="number" min="0" max="100" class="inputTable"></td></tr>
+                    <tr><th class="th_Ac">70_Ease of Mobility by Taxi or Bicycle</th><td class="td_Ac"><input id="id_70" type="number" min="0" max="100" class="inputTable"></td></tr>
+                                  
+                </tbody>
+            </table>      
+        </section>
+    </div>
+
+
+        <nav id="nav">
+            <div id="close_nav"><img src="./img/close.png" alt=""></div>
+            <h2>How to use the simulator</h2>
+            <p>1. Select a city from the drop-down menu.</p>
+            <p>2. Press the "Show scores" button.</p>
+            <p>3. Change scores between 0 and 100.</p>
+            <p>4. Press the "Simulate" button.</p>
+            <p>5. Press the "Reset" button to restart.</p>
+    
+        </nav>
+    
+        <!-- グラフを描く -->
+        <section class="box">
+            <input type="button" value="Simulate" class="btn" onclick="draw()"/>
+            <input type="button" value="Reset" class="btn" onClick="document.location.reload(true)">
+            <div id="my_dataviz"></div>
+        </section><br>
+
+    <!-- Create a div where the graph will take place -->
+    <div id="my_dataviz"></div>
+
+
+    <script src="./js/script.js"></script>
+</body>
+
+</html>
