@@ -3,141 +3,127 @@
 const lang = "en"
 const path = "./json/gpci2023_" + lang + ".json"
     
-// 対象都市リスト、指標リスト、スコア配列を作成する。
-const cityList = [];
-const indicatorList = [];
-const gpci_scores = [];
-
-jQuery.getJSON(path, function(data){
-   
-    // 対象都市リスト
-    cityList.push(data);
-
-    // 文字列リテラルでリスト作成
-    for (let item of cityList[0]) {
-        const option = `<option value=${item["City Name"]}>${item["City Name"]}</option>`
-        document.getElementById("city").insertAdjacentHTML("beforeend", option);
-    }; 
-
-    // 指標リスト
-    indicatorList.push(data);
-
-    // スコアデータから指標#1-70の部分を抽出する。
-    var indicators = Object.keys(indicatorList[0][0]).slice(1,71)
-
-    // 文字列リテラルでスコアテーブル作成（条件分岐で経済指標に「style="display: table-row;"」を付与）
-    for (let item of indicators) {
-        if (item.split("_")[2] === "Ec"){
-            const tr = `<tr class="indicator heading_${item.split("_")[2]}" style="display: table-row;"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th><td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
-            document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
-        } else {
-            const tr = `<tr class="indicator heading_${item.split("_")[2]}"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th><td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
-            document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
-        }
-    }; 
-   
-
-    // スコアテーブルに分野名のヘディングを挿入する（条件分岐で日英切替）。
-    if (lang === "en") {
-        var Ec_heading = '<tr class="function"><th colspan="2" class="Ec">Economy</th></tr>'
-        document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-        var Re_heading = '<tr class="function"><th colspan="2" class="Re">Research and Development</th></tr>'
-        document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-        var Cu_heading = '<tr class="function"><th colspan="2" class="Cu">Cultural Interaction</th></tr>'
-        document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-        var Li_heading = '<tr class="function"><th colspan="2" class="Li">Livability</th></tr>'
-        document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-        var En_heading = '<tr class="function"><th colspan="2" class="En">Environment</th></tr>'
-        document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-        var Ac_heading = '<tr class="function"><th colspan="2" class="Ac">Accesibility</th></tr>'
-        document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
-    } else if (lang === "jp") {
-        var Ec_heading = '<tr class="function"><th colspan="2" class="Ec">経済</th></tr>'
-        document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-        var Re_heading = '<tr class="function"><th colspan="2" class="Re">研究・開発</th></tr>'
-        document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-        var Cu_heading = '<tr class="function"><th colspan="2" class="Cu">文化・交流</th></tr>'
-        document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-        var Li_heading = '<tr class="function"><th colspan="2" class="Li">居住</th></tr>'
-        document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-        var En_heading = '<tr class="function"><th colspan="2" class="En">環境</th></tr>'
-        document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-        var Ac_heading = '<tr class="function"><th colspan="2" class="Ac">交通・アクセス</th></tr>'
-        document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
-    }
-
-
-    // 凡例のリスト（日英）
-    const legends = [
-        {"Ec_legend":["Economy","経済"]},
-        {"Re_legend":["Research and Development","研究・開発"]},
-        {"Cu_legend":["Cultural Interaction","文化・交流"]},
-        {"Li_legend":["Livability","居住"]},
-        {"En_legend":["Environment","環境"]},
-        {"Ac_legend":["Accessibility","交通・アクセス"]}
-    ]
-
-    // 文字列リテラルで凡例を作成（条件分岐で日英切替）
-    for (j of legends) {
-        if (lang === "en") {
-            const legend = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][0]}</li>`
-            document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend)
-        } else if (lang === "jp") {
-            const legend = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][1]}</li>`
-            document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend)
-        }
-    }
-
-    // GPCIスコア配列を作成する。
-    gpci_scores.push(data);
-    // totalの要素を削除する。
-    gpci_scores[0].map((item) => delete item["Economy"])
-    gpci_scores[0].map((item) => delete item["R&D"])
-    gpci_scores[0].map((item) => delete item["Cultural Interaction"])
-    gpci_scores[0].map((item) => delete item["Livability"])
-    gpci_scores[0].map((item) => delete item["Environment"])
-    gpci_scores[0].map((item) => delete item["Accessibility"])
-    gpci_scores[0].map((item) => delete item["Comprehensive"])
-
-
-    // Alart message if the input number is inappropriate
-    jQuery("input[type=number]").on("change", function(event){
-        var val = this.value;
-        if (val > 100 || val < 0) {
-        window.alert("Please enter numbers between 0 and 100.")
-        document.getElementById(event.target.id).value = 0
-        }
-    });
-
-
-    // Highlight edited cells in gray
-    jQuery(function(){
-        var cell = $('.inputTable');
-        cell.change(function(){
-        $(this).addClass('active');
-        });
-    });
-
-});
-
-
-//================== イニシャルグラフを描画する。==================
-let gpci_all = [];
-let gpci_total = [];
-
-
+//================== GPCIデータ読込 ==================
+// AjaxでJSONデータをロードする（同期処理）
+let gpci_all4ini = [];
 $.ajax({
 	url: path,
 	dataType: 'json',
 	async: false,
 	success: function(json) {
-		gpci_all = json;
+		gpci_all4ini = json;
 	}
 });
 
+let gpci_all4sim = [];
+$.ajax({
+	url: path,
+	dataType: 'json',
+	async: false,
+	success: function(json) {
+		gpci_all4sim = json;
+	}
+});
+
+//================== GPCIデータ読込ここまで ==================
+
+
+//================== レイアウト設定 ==================
+// 対象都市リスト：文字列リテラルでリスト作成
+for (let item of gpci_all4ini) {
+    const option = `<option value=${item["City Name"]}>${item["City Name"]}</option>`
+    document.getElementById("city").insertAdjacentHTML("beforeend", option);
+}; 
+
+// 指標リスト：スコアデータから指標#1-70の部分を抽出する。
+var indicators = Object.keys(gpci_all4ini[0]).slice(1,71)
+
+// スコアテーブル：文字列リテラルで作成（条件分岐で経済指標に「style="display: table-row;"」を付与）
+for (let item of indicators) {
+    if (item.split("_")[2] === "Ec"){
+        const tr = `<tr class="indicator heading_${item.split("_")[2]}" style="display: table-row;"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th><td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
+        document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
+    } else {
+        const tr = `<tr class="indicator heading_${item.split("_")[2]}"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th><td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
+        document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
+    }
+}; 
+
+
+// スコアテーブルに分野名のヘディングを挿入する（条件分岐で日英切替）。
+if (lang === "en") {
+    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec">Economy</th></tr>'
+    document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
+    var Re_heading = '<tr class="function"><th colspan="2" class="Re">Research and Development</th></tr>'
+    document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
+    var Cu_heading = '<tr class="function"><th colspan="2" class="Cu">Cultural Interaction</th></tr>'
+    document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
+    var Li_heading = '<tr class="function"><th colspan="2" class="Li">Livability</th></tr>'
+    document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
+    var En_heading = '<tr class="function"><th colspan="2" class="En">Environment</th></tr>'
+    document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
+    var Ac_heading = '<tr class="function"><th colspan="2" class="Ac">Accesibility</th></tr>'
+    document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
+} else if (lang === "jp") {
+    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec">経済</th></tr>'
+    document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
+    var Re_heading = '<tr class="function"><th colspan="2" class="Re">研究・開発</th></tr>'
+    document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
+    var Cu_heading = '<tr class="function"><th colspan="2" class="Cu">文化・交流</th></tr>'
+    document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
+    var Li_heading = '<tr class="function"><th colspan="2" class="Li">居住</th></tr>'
+    document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
+    var En_heading = '<tr class="function"><th colspan="2" class="En">環境</th></tr>'
+    document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
+    var Ac_heading = '<tr class="function"><th colspan="2" class="Ac">交通・アクセス</th></tr>'
+    document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
+}
+
+
+// 凡例のリスト（日英）
+const legends = [
+    {"Ec_legend":["Economy","経済"]},
+    {"Re_legend":["Research and Development","研究・開発"]},
+    {"Cu_legend":["Cultural Interaction","文化・交流"]},
+    {"Li_legend":["Livability","居住"]},
+    {"En_legend":["Environment","環境"]},
+    {"Ac_legend":["Accessibility","交通・アクセス"]}
+]
+
+// 文字列リテラルで凡例を作成（条件分岐で日英切替）
+for (j of legends) {
+    if (lang === "en") {
+        const legend = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][0]}</li>`
+        document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend)
+    } else if (lang === "jp") {
+        const legend = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][1]}</li>`
+        document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend)
+    }
+}
+
+// アラート：Alart message if the input number is inappropriate
+jQuery("input[type=number]").on("change", function(event){
+    var val = this.value;
+    if (val > 100 || val < 0) {
+    window.alert("Please enter numbers between 0 and 100.")
+    document.getElementById(event.target.id).value = 0
+    }
+});
+
+// セルのハイライト：Highlight edited cells in gray
+jQuery(function(){
+    var cell = $('.inputTable');
+    cell.change(function(){
+    $(this).addClass('active');
+    });
+});
+//================== レイアウト設定ここまで ==================
+
+
+//================== イニシャルグラフ描画 ==================
 
   // スコアデータから指標#1-70の部分を抽出する。
-  gpci_total = gpci_all.map(item => ({
+  let gpci_initial = gpci_all4ini.map(item => ({
     "City Name": item["City Name"],
     "Economy": item["Economy"],
     "R&D": item["R&D"],
@@ -147,16 +133,6 @@ $.ajax({
     "Accessibility": item["Accessibility"],
     "Total": item["Comprehensive"]
   }));
-
-  // スコアデータから都市名および指標#1-70の部分を抽出する。
-  let gpci_thisyear = gpci_all;
-  gpci_all.map((item) => delete item["Economy"])
-  gpci_all.map((item) => delete item["R&D"])
-  gpci_all.map((item) => delete item["Cultural Interaction"])
-  gpci_all.map((item) => delete item["Livability"])
-  gpci_all.map((item) => delete item["Environment"])
-  gpci_all.map((item) => delete item["Accessibility"])
-  gpci_all.map((item) => delete item["Comprehensive"])
 
   // set the dimensions and margins of the graph
   const margin = { top: 30, right: 30, bottom: 20, left: 100 };
@@ -179,16 +155,16 @@ $.ajax({
 
 
   // 降順でソートする。
-  gpci_total.sort((a,b) => b["Total"] - a["Total"])
+  gpci_initial.sort((a,b) => b["Total"] - a["Total"])
   
   // totalの要素を削除する。
-  gpci_total.map((item) => delete item["Total"])
+  gpci_initial.map((item) => delete item["Total"])
 
   // List of subgroups = header of the csv files = soil condition here
   const subgroups = ["Economy","R&D","Cultural Interaction","Livability","Environment","Accessibility"]
 
   // List of groups = species here = value of the first column called group -> I show them on the X axis
-  const groups = gpci_total.map(d => (d["City Name"]))
+  const groups = gpci_initial.map(d => (d["City Name"]))
 
   // Add X axis
   const x = d3.scaleLinear()
@@ -215,7 +191,7 @@ $.ajax({
   //stack the data? --> stack per subgroup
   const stackedData = d3.stack()
     .keys(subgroups)
-    (gpci_total)
+    (gpci_initial)
 
   // Show the bars
   svg.append("g")
@@ -233,19 +209,34 @@ $.ajax({
     .attr("width", d => x(d[1]) - x(d[0]))
     .attr("height", y.bandwidth())
 
+//================== イニシャルグラフ描画ここまで ==================
 
 
-
-// 都市を選択した後、対象都市のスコアを表示する。
+//================== 都市の選択とスコア表示 ==================
 function selectCity(){
-
+  
     // 対象都市のデータを抽出する（オブジェクト）。
 	var target = document.getElementById("city").value;
-    let targetScore = gpci_scores[0].filter(function(item, index){
+    let targetScore = gpci_all4ini.filter(function(item, index){
         if (item["City Name"] === target) return true;
     });
-
-    // Coloring the target city
+      
+    // オブジェクトから対象都市名のプロパティを削除する。
+    targetScore.map((item) => delete item["City Name"])
+    targetScore.map((item) => delete item["Economy"])
+    targetScore.map((item) => delete item["R&D"])
+    targetScore.map((item) => delete item["Cultural Interaction"])
+    targetScore.map((item) => delete item["Livability"])
+    targetScore.map((item) => delete item["Environment"])
+    targetScore.map((item) => delete item["Accessibility"])
+    targetScore.map((item) => delete item["Comprehensive"])
+    
+    // 対象都市のデータをテーブルに表示する。
+    for (let i in targetScore[0]) {
+      document.getElementById("id_"+i.split("_")[0]).value = parseFloat(targetScore[0][i]).toFixed(1);
+    }
+      
+    // 対象都市の都市名のカラーを変更する。
     svg.selectAll("text")
     .attr("fill", function(d){
       var item = d;
@@ -255,102 +246,83 @@ function selectCity(){
         return "black";}
     });
 
-    // オブジェクトから対象都市名のプロパティを削除する。
-    targetScore.map((item) => delete item["City Name"])
-
-    // 対象都市のデータをテーブルに表示する。
-    for (let i in targetScore[0]) {
-        document.getElementById("id_"+i.split("_")[0]).value = parseFloat(targetScore[0][i]).toFixed(1);
-    }
-
     // 分野別スコアの表示/非表示切り替え
     jQuery(".function").click(function() {
         var children = $(this).nextUntil(".function").filter(".indicator")
         jQuery(".indicator").hide()
         children.toggle(children.first().is(":hidden"))
-    })
-      
+    })     
 }
+//================== 都市の選択とスコア表示ここまで ==================
 
 
-
-
-
-// Get scores of target city's simulation scores and update the graph
+//================== シミュレーション ==================
 function draw(){
 
   var target = document.getElementById("city").value;
 
-  //console.log(gpci_thisyear)
+  // オブジェクトから対象都市名のプロパティを削除する。
+  gpci_all4sim.map((item) => delete item["Economy"])
+  gpci_all4sim.map((item) => delete item["R&D"])
+  gpci_all4sim.map((item) => delete item["Cultural Interaction"])
+  gpci_all4sim.map((item) => delete item["Livability"])
+  gpci_all4sim.map((item) => delete item["Environment"])
+  gpci_all4sim.map((item) => delete item["Accessibility"])
+  gpci_all4sim.map((item) => delete item["Comprehensive"])
 
-  var sim_gpci = gpci_thisyear.filter(function(item, index){
+  var sim_gpci = gpci_all4sim.filter(function(item, index){
       if (item["City Name"] === target) {
         return true};
     });
     
-
-    for (indicator of sim_gpci) {
-      const temp_indicators = Object.keys( indicator );
-
-      // 都市名、分野別および総合の要素を削除して、指標名だけの配列を作成する。
-      const indicators = temp_indicators.filter(function( item ) {
-  
-        return item != "City Name" 
-      });
-
-      // 対象都市のスコア計算を行う。
-      for (let item of indicators) {
-
-        // sim入力した指標スコアを抽出する。
-        let indicator_name = item.split("_")[3]
-        sim_gpci[0][indicator_name] = parseFloat(document.getElementById("id_"+item.split("_")[0]).value);
-        console.log(sim_gpci[0][indicator_name])
-  
-      }
-      
-      
+    // 対象都市のデータをテーブルに表示する。
+    let k = 1;
+    const obj = Object.keys(sim_gpci[0]);
+    while (k < obj.length) {
+      sim_gpci[0][obj[k]] = parseFloat(document.getElementById("id_"+obj[k].split("_")[0]).value);
+      k++;
     }
     
-    console.log(gpci_thisyear)
-    
+    console.log(gpci_all4sim)
+        
     // Indicator group score
     var gpci_idg = [];
     for (var i = 0; i <= 47; i++) {
       var arr = [
         {
-          "city": gpci_thisyear[i]["City Name"], 
+          "city": gpci_scores[i]["City Name"], 
           // Ec
-          "Market Size": ( gpci_thisyear[i]["Nominal GDP"] + gpci_thisyear[i]["GDP per Capita"])/2,
-          "Market Attractiveness": ( gpci_thisyear[i]["GDP Growth Rate"] + gpci_thisyear[i]["Economic Freedom"])/2,
-          "Economic Vitality": ( gpci_thisyear[i]["Stock Market Capitalization"] + gpci_thisyear[i]["World's Top 500 Companies"])/2,
-          "Human Capital": ( gpci_thisyear[i]["Total Employment"] + gpci_thisyear[i]["Employees in Business Support Services"])/2,
-          "Business Environment": ( gpci_thisyear[i]["Wage Level"] + gpci_thisyear[i]["Availability of Skilled Human Resources"] + gpci_thisyear[i]["Variety of Workplace Options"])/3,
-          "Ease of Doing Business": ( gpci_thisyear[i]["Corporate Tax Rate"] + gpci_thisyear[i]["Political, Economic and Business Risk"])/2,
+          "Market Size": ( gpci_scores[i]["Nominal GDP"] + gpci_scores[i]["GDP per Capita"])/2,
+          "Market Attractiveness": ( gpci_scores[i]["GDP Growth Rate"] + gpci_scores[i]["Economic Freedom"])/2,
+          "Economic Vitality": ( gpci_scores[i]["Stock Market Capitalization"] + gpci_scores[i]["World's Top 500 Companies"])/2,
+          "Human Capital": ( gpci_scores[i]["Total Employment"] + gpci_scores[i]["Employees in Business Support Services"])/2,
+          "Business Environment": ( gpci_scores[i]["Wage Level"] + gpci_scores[i]["Availability of Skilled Human Resources"] + gpci_scores[i]["Variety of Workplace Options"])/3,
+          "Ease of Doing Business": ( gpci_scores[i]["Corporate Tax Rate"] + gpci_scores[i]["Political, Economic and Business Risk"])/2,
           // Re
-          "Academic Resources": ( gpci_thisyear[i]["Number of Researchers"] + gpci_thisyear[i]["World's Top Universities"])/2,
-          "Research Environment": ( gpci_thisyear[i]["Research and Development Expenditure"] + gpci_thisyear[i]["Number of International Students"] + gpci_thisyear[i]["Academic Performance"])/3,
-          "Innovation": ( gpci_thisyear[i]["Number of Patents"] + gpci_thisyear[i]["Winners of Prizes in Science and Technology"] + gpci_thisyear[i]["Number of Startups"])/3,
+          "Academic Resources": ( gpci_scores[i]["Number of Researchers"] + gpci_scores[i]["World's Top Universities"])/2,
+          "Research Environment": ( gpci_scores[i]["Research and Development Expenditure"] + gpci_scores[i]["Number of International Students"] + gpci_scores[i]["Academic Performance"])/3,
+          "Innovation": ( gpci_scores[i]["Number of Patents"] + gpci_scores[i]["Winners of Prizes in Science and Technology"] + gpci_scores[i]["Number of Startups"])/3,
           // Cu
-          "Trendsetting Potential": ( gpci_thisyear[i]["Number of International Conferences"] + gpci_thisyear[i]["Number of Cultural Events"] + gpci_thisyear[i]["Cultural Content Export Value"] + gpci_thisyear[i]["Art Market Environment"])/4,
-          "Tourism Resources": ( gpci_thisyear[i]["Tourist Attractions"] + gpci_thisyear[i]["Proximity to World Heritage Sites"] + gpci_thisyear[i]["Nightlife Options"])/3,
-          "Cultural Facilities": ( gpci_thisyear[i]["Number of Theaters"] + gpci_thisyear[i]["Number of Museums"] + gpci_thisyear[i]["Number of Stadiums"])/3,
-          "Visitor Amenities": ( gpci_thisyear[i]["Number of Hotel Rooms"] + gpci_thisyear[i]["Number of Luxury Hotel Rooms"] + gpci_thisyear[i]["Attractiveness of Shopping Options"] + gpci_thisyear[i]["Attractiveness of Dining Options"])/4,
-          "International Interaction": ( gpci_thisyear[i]["Number of Foreign Residents"] + gpci_thisyear[i]["Number of Foreign Visitors"])/2,
+          "Trendsetting Potential": ( gpci_scores[i]["Number of International Conferences"] + gpci_scores[i]["Number of Cultural Events"] + gpci_scores[i]["Cultural Content Export Value"] + gpci_scores[i]["Art Market Environment"])/4,
+          "Tourism Resources": ( gpci_scores[i]["Tourist Attractions"] + gpci_scores[i]["Proximity to World Heritage Sites"] + gpci_scores[i]["Nightlife Options"])/3,
+          "Cultural Facilities": ( gpci_scores[i]["Number of Theaters"] + gpci_scores[i]["Number of Museums"] + gpci_scores[i]["Number of Stadiums"])/3,
+          "Visitor Amenities": ( gpci_scores[i]["Number of Hotel Rooms"] + gpci_scores[i]["Number of Luxury Hotel Rooms"] + gpci_scores[i]["Attractiveness of Shopping Options"] + gpci_scores[i]["Attractiveness of Dining Options"])/4,
+          "International Interaction": ( gpci_scores[i]["Number of Foreign Residents"] + gpci_scores[i]["Number of Foreign Visitors"])/2,
           // Li
-          "Working Environment": ( gpci_thisyear[i]["Total Unemployment Rate"] + gpci_thisyear[i]["Total Working Hours"] + gpci_thisyear[i]["Workstyle Flexibility"])/3,
-          "Cost of Living": ( gpci_thisyear[i]["Housing Rent"] + gpci_thisyear[i]["Price Level"])/2,
-          "Security and Safety": ( gpci_thisyear[i]["Number of Murders"] + gpci_thisyear[i]["Economic Risk of Natural Disaster"])/2,
-          "Well-Being": ( gpci_thisyear[i]["Life Expectancy"] + gpci_thisyear[i]["Social Freedom and Equality"] + gpci_thisyear[i]["Risk to Mental Health"])/3,
-          "Ease of Living": ( gpci_thisyear[i]["Number of Medical Doctors"] + gpci_thisyear[i]["ICT Readiness"] + gpci_thisyear[i]["Number of Retail Shops"] + gpci_thisyear[i]["Number of Restaurants"])/4,
+          "Working Environment": ( gpci_scores[i]["Total Unemployment Rate"] + gpci_scores[i]["Total Working Hours"] + gpci_scores[i]["Workstyle Flexibility"])/3,
+          "Cost of Living": ( gpci_scores[i]["Housing Rent"] + gpci_scores[i]["Price Level"])/2,
+          "Security and Safety": ( gpci_scores[i]["Number of Murders"] + gpci_scores[i]["Economic Risk of Natural Disaster"])/2,
+          "Well-Being": ( gpci_scores[i]["Life Expectancy"] + gpci_scores[i]["Social Freedom and Equality"] + gpci_scores[i]["Risk to Mental Health"])/3,
+          "Ease of Living": ( gpci_scores[i]["Number of Medical Doctors"] + gpci_scores[i]["ICT Readiness"] + gpci_scores[i]["Number of Retail Shops"] + gpci_scores[i]["Number of Restaurants"])/4,
           // En
-          "Sustainability": ( gpci_thisyear[i]["Commitment to Climate Action"] + gpci_thisyear[i]["Renewable Energy Rate"] + gpci_thisyear[i]["Waste Recycle Rate"])/3,
-          "Air Quality and Comfort": ( gpci_thisyear[i]["CO2 Emissions per Capita"] + gpci_thisyear[i]["Air Quality"] + gpci_thisyear[i]["Comfort Level of Temperature"])/3,
-          "Urban Environment": ( gpci_thisyear[i]["Water Quality"] + gpci_thisyear[i]["Urban Greenery"] + gpci_thisyear[i]["Satisfaction with Urban Cleanliness"])/3,
+          "Sustainability": ( gpci_scores[i]["Commitment to Climate Action"] + gpci_scores[i]["Renewable Energy Rate"] + gpci_scores[i]["Waste Recycle Rate"])/3,
+          "Air Quality and Comfort": ( gpci_scores[i]["CO2 Emissions per Capita"] + gpci_scores[i]["Air Quality"] + gpci_scores[i]["Comfort Level of Temperature"])/3,
+          "Urban Environment": ( gpci_scores[i]["Water Quality"] + gpci_scores[i]["Urban Greenery"] + gpci_scores[i]["Satisfaction with Urban Cleanliness"])/3,
           // Ac
-          "International Network": ( gpci_thisyear[i]["Cities with Direct International Flights"] + gpci_thisyear[i]["International Freight Flows"])/2,
-          "Air Transport Capacity": ( gpci_thisyear[i]["Number of Air Passengers"] + gpci_thisyear[i]["Number of Arrivals and Departures at the Airport"])/2,
-          "Inner-City Transportation": ( gpci_thisyear[i]["Station Density"] + gpci_thisyear[i]["Public Transportation Use"] + gpci_thisyear[i]["Travel Time to Airports"])/3,
-          "Transport Comfortability": ( gpci_thisyear[i]["Commuting Time"] + gpci_thisyear[i]["Traffic Congestion"] + gpci_thisyear[i]["Ease of Mobility by Taxi or Bicycle"])/3
+          "International Network": ( gpci_scores[i]["Cities with Direct International Flights"] + gpci_scores[i]["International Freight Flows"])/2,
+          "Air Transport Capacity": ( gpci_scores[i]["Number of Air Passengers"] + gpci_scores[i]["Number of Arrivals and Departures at the Airport"])/2,
+          "Inner-City Transportation": ( gpci_scores[i]["Station Density"] + gpci_scores[i]["Public Transportation Use"] + gpci_scores[i]["Travel Time to Airports"])/3,
+          "Transport Comfortability": ( gpci_scores[i]["Commuting Time"] + gpci_scores[i]["Traffic Congestion"] + gpci_scores[i]["Ease of Mobility by Taxi or Bicycle"])/3
         }
       ];
       gpci_idg.push(arr);
@@ -470,4 +442,4 @@ function draw(){
   });
 
 };
-
+//================== シミュレーションここまで ==================

@@ -677,11 +677,14 @@ jQuery("input[type=number]").on("change", function(){
 function draw(){
 
   var target = document.getElementById("city").value;
+  console.log(gpci2020[0])
 
   var sim_gpci2020 = gpci2020[0].filter(function(item, index){
       if (item.city === target) {
         return true};
     });
+
+    console.log(sim_gpci2020)
     
     // Ec
     sim_gpci2020[0]["01_Nominal GDP"] = parseFloat(document.getElementById("id_01").value);
