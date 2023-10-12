@@ -259,110 +259,247 @@ function selectCity(){
 //================== シミュレーション ==================
 function draw(){
 
-  var target = document.getElementById("city").value;
+  const target = document.getElementById("city").value;
+  const keysToDelete = [
+    "Economy",
+    "R&D",
+    "Cultural Interaction",
+    "Livability",
+    "Environment",
+    "Accessibility",
+    "Comprehensive"
+  ];
 
-  // オブジェクトから対象都市名のプロパティを削除する。
-  gpci_all4sim.map((item) => delete item["Economy"])
-  gpci_all4sim.map((item) => delete item["R&D"])
-  gpci_all4sim.map((item) => delete item["Cultural Interaction"])
-  gpci_all4sim.map((item) => delete item["Livability"])
-  gpci_all4sim.map((item) => delete item["Environment"])
-  gpci_all4sim.map((item) => delete item["Accessibility"])
-  gpci_all4sim.map((item) => delete item["Comprehensive"])
+  // Remove unnecessary properties
+  gpci_all4sim.forEach((item) => {
+    keysToDelete.forEach((key) => delete item[key]);
+  });
 
-  var sim_gpci = gpci_all4sim.filter(function(item, index){
-      if (item["City Name"] === target) {
-        return true};
-    });
+  const sim_gpci = gpci_all4sim.filter((item) => item["City Name"] === target);
     
-    // 対象都市のデータをテーブルに表示する。
-    let k = 1;
-    const obj = Object.keys(sim_gpci[0]);
-    while (k < obj.length) {
-      sim_gpci[0][obj[k]] = parseFloat(document.getElementById("id_"+obj[k].split("_")[0]).value);
-      k++;
-    }
-    
-    console.log(gpci_all4sim)
-        
-    // Indicator group score
-    var gpci_idg = [];
-    for (var i = 0; i <= 47; i++) {
-      var arr = [
-        {
-          "city": gpci_scores[i]["City Name"], 
-          // Ec
-          "Market Size": ( gpci_scores[i]["Nominal GDP"] + gpci_scores[i]["GDP per Capita"])/2,
-          "Market Attractiveness": ( gpci_scores[i]["GDP Growth Rate"] + gpci_scores[i]["Economic Freedom"])/2,
-          "Economic Vitality": ( gpci_scores[i]["Stock Market Capitalization"] + gpci_scores[i]["World's Top 500 Companies"])/2,
-          "Human Capital": ( gpci_scores[i]["Total Employment"] + gpci_scores[i]["Employees in Business Support Services"])/2,
-          "Business Environment": ( gpci_scores[i]["Wage Level"] + gpci_scores[i]["Availability of Skilled Human Resources"] + gpci_scores[i]["Variety of Workplace Options"])/3,
-          "Ease of Doing Business": ( gpci_scores[i]["Corporate Tax Rate"] + gpci_scores[i]["Political, Economic and Business Risk"])/2,
-          // Re
-          "Academic Resources": ( gpci_scores[i]["Number of Researchers"] + gpci_scores[i]["World's Top Universities"])/2,
-          "Research Environment": ( gpci_scores[i]["Research and Development Expenditure"] + gpci_scores[i]["Number of International Students"] + gpci_scores[i]["Academic Performance"])/3,
-          "Innovation": ( gpci_scores[i]["Number of Patents"] + gpci_scores[i]["Winners of Prizes in Science and Technology"] + gpci_scores[i]["Number of Startups"])/3,
-          // Cu
-          "Trendsetting Potential": ( gpci_scores[i]["Number of International Conferences"] + gpci_scores[i]["Number of Cultural Events"] + gpci_scores[i]["Cultural Content Export Value"] + gpci_scores[i]["Art Market Environment"])/4,
-          "Tourism Resources": ( gpci_scores[i]["Tourist Attractions"] + gpci_scores[i]["Proximity to World Heritage Sites"] + gpci_scores[i]["Nightlife Options"])/3,
-          "Cultural Facilities": ( gpci_scores[i]["Number of Theaters"] + gpci_scores[i]["Number of Museums"] + gpci_scores[i]["Number of Stadiums"])/3,
-          "Visitor Amenities": ( gpci_scores[i]["Number of Hotel Rooms"] + gpci_scores[i]["Number of Luxury Hotel Rooms"] + gpci_scores[i]["Attractiveness of Shopping Options"] + gpci_scores[i]["Attractiveness of Dining Options"])/4,
-          "International Interaction": ( gpci_scores[i]["Number of Foreign Residents"] + gpci_scores[i]["Number of Foreign Visitors"])/2,
-          // Li
-          "Working Environment": ( gpci_scores[i]["Total Unemployment Rate"] + gpci_scores[i]["Total Working Hours"] + gpci_scores[i]["Workstyle Flexibility"])/3,
-          "Cost of Living": ( gpci_scores[i]["Housing Rent"] + gpci_scores[i]["Price Level"])/2,
-          "Security and Safety": ( gpci_scores[i]["Number of Murders"] + gpci_scores[i]["Economic Risk of Natural Disaster"])/2,
-          "Well-Being": ( gpci_scores[i]["Life Expectancy"] + gpci_scores[i]["Social Freedom and Equality"] + gpci_scores[i]["Risk to Mental Health"])/3,
-          "Ease of Living": ( gpci_scores[i]["Number of Medical Doctors"] + gpci_scores[i]["ICT Readiness"] + gpci_scores[i]["Number of Retail Shops"] + gpci_scores[i]["Number of Restaurants"])/4,
-          // En
-          "Sustainability": ( gpci_scores[i]["Commitment to Climate Action"] + gpci_scores[i]["Renewable Energy Rate"] + gpci_scores[i]["Waste Recycle Rate"])/3,
-          "Air Quality and Comfort": ( gpci_scores[i]["CO2 Emissions per Capita"] + gpci_scores[i]["Air Quality"] + gpci_scores[i]["Comfort Level of Temperature"])/3,
-          "Urban Environment": ( gpci_scores[i]["Water Quality"] + gpci_scores[i]["Urban Greenery"] + gpci_scores[i]["Satisfaction with Urban Cleanliness"])/3,
-          // Ac
-          "International Network": ( gpci_scores[i]["Cities with Direct International Flights"] + gpci_scores[i]["International Freight Flows"])/2,
-          "Air Transport Capacity": ( gpci_scores[i]["Number of Air Passengers"] + gpci_scores[i]["Number of Arrivals and Departures at the Airport"])/2,
-          "Inner-City Transportation": ( gpci_scores[i]["Station Density"] + gpci_scores[i]["Public Transportation Use"] + gpci_scores[i]["Travel Time to Airports"])/3,
-          "Transport Comfortability": ( gpci_scores[i]["Commuting Time"] + gpci_scores[i]["Traffic Congestion"] + gpci_scores[i]["Ease of Mobility by Taxi or Bicycle"])/3
-        }
-      ];
-      gpci_idg.push(arr);
-    };
+  // 対象都市のデータをテーブルに表示する。
+  let k = 1;
+  const obj = Object.keys(sim_gpci[0]);
+  while (k < obj.length) {
+    sim_gpci[0][obj[k]] = parseFloat(document.getElementById("id_"+obj[k].split("_")[0]).value);
+    k++;
+  }
+  
+  // Indicator group score
+  let gpci_idg = [];
+  const num_of_Cities = Object.values(gpci_all4sim).length;
+  for (let i = 0; i < num_of_Cities; i++) {
+
+    let arr = {};
+    let tempEc1 = []
+    let tempEc2 = []
+    let tempEc3 = []
+    let tempEc4 = []
+    let tempEc5 = []
+    let tempEc6 = []
+    let tempRe1 = []
+    let tempRe2 = []
+    let tempRe3 = []
+    let tempCu1 = []
+    let tempCu2 = []
+    let tempCu3 = []
+    let tempCu4 = []
+    let tempCu5 = []
+    let tempLi1 = []
+    let tempLi2 = []
+    let tempLi3 = []
+    let tempLi4 = []
+    let tempLi5 = []
+    let tempEn1 = []
+    let tempEn2 = []
+    let tempEn3 = []
+    let tempAc1 = []
+    let tempAc2 = []
+    let tempAc3 = []
+    let tempAc4 = []
+          
+    for (let j in gpci_all4sim[i]) {
+      const key = j.split("_")[1] ? j.split("_")[1] : j; //三項演算子で「_」が存在する場合は「_」で文字列分割して、存在しなければそのまま使用
+      const value = gpci_all4sim[i][j]
+      
+      switch (key) {
+        case "City Name":
+          arr["City Name"] = value;
+          break;
+        case "Ec1":
+          tempEc1.push(value);
+          break;
+        case "Ec2":
+          tempEc2.push(value);
+          break;
+        case "Ec3":
+          tempEc3.push(value);
+          break;
+        case "Ec4":
+          tempEc4.push(value);
+          break;
+        case "Ec5":
+          tempEc5.push(value);
+          break;
+        case "Ec6":
+          tempEc6.push(value);
+          break;
+        case "Re1":
+          tempRe1.push(value);
+          break;
+        case "Re2":
+          tempRe2.push(value);
+          break;
+        case "Re3":
+          tempRe3.push(value);
+          break;
+        case "Cu1":
+          tempCu1.push(value);
+          break;
+        case "Cu2":
+          tempCu2.push(value);
+          break;
+        case "Cu3":
+          tempCu3.push(value);
+          break;
+        case "Cu4":
+          tempCu4.push(value);
+          break;
+        case "Cu5":
+          tempCu5.push(value);
+          break;
+        case "Li1":
+          tempLi1.push(value);
+          break;
+        case "Li2":
+          tempLi2.push(value);
+          break;
+        case "Li3":
+          tempLi3.push(value);
+          break;
+        case "Li4":
+          tempLi4.push(value);
+          break;
+        case "Li5":
+          tempLi5.push(value);
+          break;
+        case "En1":
+          tempEn1.push(value);
+          break;
+        case "En2":
+          tempEn2.push(value);
+          break;
+        case "En3":
+          tempEn3.push(value);
+          break;
+        case "Ac1":
+          tempAc1.push(value);
+          break;
+        case "Ac2":
+          tempAc2.push(value);
+          break;
+        case "Ac3":
+          tempAc3.push(value);
+          break;
+        case "Ac4":
+          tempAc4.push(value);
+          break;
+      }
+
+      }
+
+      let totalEc1 = tempEc1.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEc2 = tempEc2.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEc3 = tempEc3.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEc4 = tempEc4.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEc5 = tempEc5.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEc6 = tempEc6.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalRe1 = tempRe1.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalRe2 = tempRe2.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalRe3 = tempRe3.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalCu1 = tempCu1.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalCu2 = tempCu2.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalCu3 = tempCu3.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalCu4 = tempCu4.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalCu5 = tempCu5.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalLi1 = tempLi1.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalLi2 = tempLi2.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalLi3 = tempLi3.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalLi4 = tempLi4.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalLi5 = tempLi5.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEn1 = tempEn1.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEn2 = tempEn2.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalEn3 = tempEn3.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalAc1 = tempAc1.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalAc2 = tempAc2.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalAc3 = tempAc3.reduce(function(sum, element){ return sum + element; }, 0);
+      let totalAc4 = tempAc4.reduce(function(sum, element){ return sum + element; }, 0);
+
+      arr["Ec1"] = totalEc1/tempEc1.length
+      arr["Ec2"] = totalEc2/tempEc2.length
+      arr["Ec3"] = totalEc3/tempEc3.length
+      arr["Ec4"] = totalEc4/tempEc4.length
+      arr["Ec5"] = totalEc5/tempEc5.length
+      arr["Ec6"] = totalEc6/tempEc6.length
+      arr["Re1"] = totalRe1/tempRe1.length
+      arr["Re2"] = totalRe2/tempRe2.length
+      arr["Re3"] = totalRe3/tempRe3.length
+      arr["Cu1"] = totalCu1/tempCu1.length
+      arr["Cu2"] = totalCu2/tempCu2.length
+      arr["Cu3"] = totalCu3/tempCu3.length
+      arr["Cu4"] = totalCu4/tempCu4.length
+      arr["Cu5"] = totalCu5/tempCu5.length
+      arr["Li1"] = totalLi1/tempLi1.length
+      arr["Li2"] = totalLi2/tempLi2.length
+      arr["Li3"] = totalLi3/tempLi3.length
+      arr["Li4"] = totalLi4/tempLi4.length
+      arr["Li5"] = totalLi5/tempLi5.length
+      arr["En1"] = totalEn1/tempEn1.length
+      arr["En2"] = totalEn2/tempEn2.length
+      arr["En3"] = totalEn3/tempEn3.length
+      arr["Ac1"] = totalAc1/tempAc1.length
+      arr["Ac2"] = totalAc2/tempAc2.length
+      arr["Ac3"] = totalAc3/tempAc3.length
+      arr["Ac4"] = totalAc4/tempAc4.length
+
+     gpci_idg.push(arr);
+  };
     
     // Function score
     var gpci_f = [];
     for (var i = 0; i <= 47; i++) {
       var arr = [
       {
-        "city": gpci_idg[i][0]["city"], 
-        "Economy": (gpci_idg[i][0]["Market Size"] + gpci_idg[i][0]["Market Attractiveness"] + gpci_idg[i][0]["Economic Vitality"] + gpci_idg[i][0]["Human Capital"] + gpci_idg[i][0]["Business Environment"] + gpci_idg[i][0]["Ease of Doing Business"]),
-        "R&D":  (gpci_idg[i][0]["Academic Resources"] + gpci_idg[i][0]["Research Environment"] + gpci_idg[i][0]["Innovation"]),
-        "Cultural Interaction": (gpci_idg[i][0]["Trendsetting Potential"] + gpci_idg[i][0]["Tourism Resources"] + gpci_idg[i][0]["Cultural Facilities"] + gpci_idg[i][0]["Visitor Amenities"] + gpci_idg[i][0]["International Interaction"]),
-        "Livability": (gpci_idg[i][0]["Working Environment"] + gpci_idg[i][0]["Cost of Living"] + gpci_idg[i][0]["Security and Safety"] + gpci_idg[i][0]["Well-Being"] + gpci_idg[i][0]["Ease of Living"]),
-        "Environment": (gpci_idg[i][0]["Sustainability"] + gpci_idg[i][0]["Air Quality and Comfort"] + gpci_idg[i][0]["Urban Environment"]),
-        "Accessibility": (gpci_idg[i][0]["International Network"] + gpci_idg[i][0]["Air Transport Capacity"] + gpci_idg[i][0]["Inner-City Transportation"] + gpci_idg[i][0]["Transport Comfortability"])
+        "City Name": gpci_idg[i]["City Name"], 
+        "Economy": (gpci_idg[i]["Ec1"] + gpci_idg[i]["Ec2"] + gpci_idg[i]["Ec3"] + gpci_idg[i]["Ec4"] + gpci_idg[i]["Ec5"] + gpci_idg[i]["Ec6"]),
+        "R&D":  (gpci_idg[i]["Re1"] + gpci_idg[i]["Re2"] + gpci_idg[i]["Re3"]),
+        "Cultural Interaction": (gpci_idg[i]["Cu1"] + gpci_idg[i]["Cu2"] + gpci_idg[i]["Cu3"] + gpci_idg[i]["Cu4"] + gpci_idg[i]["Cu5"]),
+        "Livability": (gpci_idg[i]["Li1"] + gpci_idg[i]["Li2"] + gpci_idg[i]["Li3"] + gpci_idg[i]["Li4"] + gpci_idg[i]["Li5"]),
+        "Environment": (gpci_idg[i]["En1"] + gpci_idg[i]["En2"] + gpci_idg[i]["En3"]),
+        "Accessibility": (gpci_idg[i]["Ac1"] + gpci_idg[i]["Ac2"] + gpci_idg[i]["Ac3"] + gpci_idg[i]["Ac4"])
       }
       ];
       gpci_f.push(arr[0]);
     };
+ 
 
     // Comprehensive score
     var gpci_sim = [];
     for (var i = 0; i <= 47; i++) {
       var arr = 
         {
-          "city": gpci_f[i]["city"],
+          "City Name": gpci_f[i]["City Name"],
           "Economy": gpci_f[i]["Economy"],
           "R&D":  gpci_f[i]["R&D"],
           "Cultural Interaction": gpci_f[i]["Cultural Interaction"],
           "Livability": gpci_f[i]["Livability"],
           "Environment": gpci_f[i]["Environment"],
           "Accessibility": gpci_f[i]["Accessibility"],
-          "total": (gpci_f[i]["Economy"] + gpci_f[i]["R&D"] + gpci_f[i]["Cultural Interaction"] + gpci_f[i]["Livability"] + gpci_f[i]["Environment"] + gpci_f[i]["Accessibility"]) 
+          "Comprehensive": (gpci_f[i]["Economy"] + gpci_f[i]["R&D"] + gpci_f[i]["Cultural Interaction"] + gpci_f[i]["Livability"] + gpci_f[i]["Environment"] + gpci_f[i]["Accessibility"]) 
         };
         
       gpci_sim.push(arr);
     };
-
 
     // Remove the initial rect
     var elements = document.getElementsByTagName("rect")
@@ -377,14 +514,14 @@ function draw(){
     };
 
     // Sort by total scores
-    gpci_sim.sort((a,b) => b.total - a.total)
+    gpci_sim.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
   
 
   // List of subgroups = header of the csv files = soil condition here
   const subgroups = ["Economy","R&D","Cultural Interaction","Livability","Environment","Accessibility"]
 
   // List of groups = species here = value of the first column called group -> I show them on the X axis
-  const groups = gpci_sim.map(d => (d.city))
+  const groups = gpci_sim.map(d => (d["City Name"]))
 
   // Add X axis
   const x = d3.scaleLinear()
@@ -426,7 +563,7 @@ function draw(){
     .data(d => d)
     .join("rect")
     .attr("x", d => x(d[0]))
-    .attr("y", d => y(d.data.city))
+    .attr("y", d => y(d.data["City Name"]))
     .attr("width", d => x(d[1]) - x(d[0]))
     .attr("height", y.bandwidth())
 
