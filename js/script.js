@@ -1,6 +1,6 @@
 
 // 言語設定
-const lang = "en"
+const lang = "jp"
 const path = "./json/gpci2023_" + lang + ".json"
 
 //================== ボタンやテーブル見出しの言語変更 ==================
@@ -15,16 +15,20 @@ if (lang === "en") {
   document.getElementById("show").value = "Show scores";
   document.getElementById("sim").value = "Simulate";
   document.getElementById("reset").value = "Reset";
+  document.getElementById("table-header1").textContent = "Indicator";
+  document.getElementById("table-header2").textContent = "Score";
 } else if (lang === "jp") {
   document.getElementById("desc1").textContent = "選択した都市の指標スコアを変更することで、GPCIにおける順位変動をシミュレーションすることができます。";
   document.getElementById("desc2").textContent = "シミュレータの使い方";
-  document.getElementById("desc3").textContent = "1.ドロップダウンメニューから都市を選択し、「スコア表示」ボタンを押します。";
+  document.getElementById("desc3").textContent = "1. メニューから都市を選択し、「スコア表示」ボタンを押します。";
   document.getElementById("desc4").textContent = "2. 0点から100点の間でスコアを変更します。";
   document.getElementById("desc5").textContent = "3.「シミュレーション」ボタンを押します。";
   document.getElementById("desc6").textContent = "4.「リセット」ボタンを押すと、初期値に戻ります。";
   document.getElementById("show").value = "スコア表示";
   document.getElementById("sim").value = "シミュレーション";
   document.getElementById("reset").value = "リセット";
+  document.getElementById("table-header1").textContent = "指標";
+  document.getElementById("table-header2").textContent = "スコア";
 }
 
 

@@ -1,4 +1,4 @@
-h1, p {
+h1,h3,p {
     margin: 0;
     padding: 0;
 }
@@ -45,7 +45,7 @@ h1, p {
 .modal-content {
     background-color: #f4f4f4;
     margin: 20% auto;
-    width: 25%;
+    width: 40%;
     box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
     animation-name: modalopen;
     animation-duration: 1s;
@@ -56,13 +56,13 @@ h1, p {
     to {opacity: 1}
 }
   
-.modal-header h1 {
-    margin: 1rem 0;
+.modal-header h4 {
+    margin: 0.5rem 0;
 }
   
 .modal-header {
     background: lightblue;
-    padding: 3px 15px;
+    padding: 0px 15px;
     display: flex;
     justify-content: space-between;
 }
@@ -348,6 +348,12 @@ td {
         /* flex layout */
         display: flex;
         flex-direction: column;
+    }
+    .imgbox {
+        width: 100%;
+    }
+    .modal-content {
+        width: 90%;
     }
     #input-area {
         width: 100%;
