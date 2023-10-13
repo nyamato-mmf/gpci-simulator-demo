@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,8 +15,33 @@
  </head>
 <body>
     <div id="title-simulator">
-        <h1>GPCI Simulator</h1>
+        <div>
+            <h1>GPCI Simulator</h1>
+            <p id="desc1"></p>
+        </div>
+
+        <!-- ヘルプアイコン -->
+        <div class="imgbox">
+            <img src="./img/help.png" id="modalOpen" class="button">
+        </div>
+        
+        <!-- 使用方法モーダル -->
+        <div id="easyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="desc2"></h3>
+                <span class="modalClose">×</span>
+            </div>
+            <div class="modal-body">
+                <p id="desc3"></p>
+                <p id="desc4"></p>
+                <p id="desc5"></p>
+                <p id="desc6"></p>
+            </div>
+        </div>
+        </div>
     </div>
+
     <div id="simulator">
         <div id="input-area">
 
@@ -33,15 +58,15 @@
 
                     <!-- Button (Show the selected city's score) -->
                     <li class="controller-item2">
-                        <input type="button" value="Show scores" class="btn" onclick="selectCity()"/>
+                        <input type="button" value="" id="show" class="btn" onclick="selectCity()"/>
                     </li>
-                    <!-- Button (Draw the city's graph-->                    
+                    <!-- Button (Draw the city's graph) -->                    
                     <li class="controller-item3">
-                        <input type="button" value="Simulate" class="btn" onclick="draw()"/>
+                        <input type="button" value="" id="sim" class="btn" onclick="draw()"/>
                     </li>
-                    <!-- Button (Reset the data -->
+                    <!-- Button (Reset the data) -->
                     <li class="controller-item4">
-                        <input type="button" value="Reset" class="btn" onClick="document.location.reload(true)">
+                        <input type="button" value="" id="reset" class="btn" onClick="document.location.reload(true)">
                     </li>
                 </ul>
             </div>

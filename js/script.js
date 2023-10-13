@@ -2,6 +2,57 @@
 // 言語設定
 const lang = "en"
 const path = "./json/gpci2023_" + lang + ".json"
+
+//================== ボタンやテーブル見出しの言語変更 ==================
+
+if (lang === "en") {
+  document.getElementById("desc1").textContent = "The GPCI Simulator allows a user to change indicator scores of a certain city to simulate changes in the GPCI ranking.";
+  document.getElementById("desc2").textContent = "How to use the simulator";
+  document.getElementById("desc3").textContent = "1. Select a city from the drop-down menu and press 'Show scores' button.";
+  document.getElementById("desc4").textContent = "2. Change scores between 0 and 100.";
+  document.getElementById("desc5").textContent = "3. Press the 'Simulate' button.";
+  document.getElementById("desc6").textContent = "4. Press the 'Reset' button to restart.";
+  document.getElementById("show").value = "Show scores";
+  document.getElementById("sim").value = "Simulate";
+  document.getElementById("reset").value = "Reset";
+} else if (lang === "jp") {
+  document.getElementById("desc1").textContent = "選択した都市の指標スコアを変更することで、GPCIにおける順位変動をシミュレーションすることができます。";
+  document.getElementById("desc2").textContent = "シミュレータの使い方";
+  document.getElementById("desc3").textContent = "1.ドロップダウンメニューから都市を選択し、「スコア表示」ボタンを押します。";
+  document.getElementById("desc4").textContent = "2. 0点から100点の間でスコアを変更します。";
+  document.getElementById("desc5").textContent = "3.「シミュレーション」ボタンを押します。";
+  document.getElementById("desc6").textContent = "4.「リセット」ボタンを押すと、初期値に戻ります。";
+  document.getElementById("show").value = "スコア表示";
+  document.getElementById("sim").value = "シミュレーション";
+  document.getElementById("reset").value = "リセット";
+}
+
+
+//================== 使用方法のモーダル ==================
+const buttonOpen = document.getElementById('modalOpen');
+const modal = document.getElementById('easyModal');
+const buttonClose = document.getElementsByClassName('modalClose')[0];
+
+// ボタンがクリックされた時
+buttonOpen.addEventListener('click', modalOpen);
+function modalOpen() {
+modal.style.display = 'block';
+}
+
+// バツ印がクリックされた時
+buttonClose.addEventListener('click', modalClose);
+function modalClose() {
+modal.style.display = 'none';
+}
+
+// モーダルコンテンツ以外がクリックされた時
+addEventListener('click', outsideClose);
+function outsideClose(e) {
+if (e.target == modal) {
+    modal.style.display = 'none';
+}
+}
+//================== ヘルプ・モーダルここまで ==================
     
 //================== GPCIデータ読込 ==================
 // AjaxでJSONデータをロードする（同期処理）
