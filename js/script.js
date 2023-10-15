@@ -1,9 +1,11 @@
 
 // 言語設定
-const lang = "jp"
+const lang = "en"
 const path = "./json/gpci2023_" + lang + ".json"
 
-//================== ボタンやテーブル見出しの言語変更 ==================
+/* ----------------------------------------------------------------------------
+　日本語・英語切替
+---------------------------------------------------------------------------- */
 
 if (lang === "en") {
   document.getElementById("desc1").textContent = "The GPCI Simulator allows a user to change indicator scores of a certain city to simulate changes in the GPCI ranking.";
@@ -31,8 +33,9 @@ if (lang === "en") {
   document.getElementById("table-header2").textContent = "スコア";
 }
 
-
-//================== 使用方法のモーダル ==================
+/* ----------------------------------------------------------------------------
+　モーダル
+---------------------------------------------------------------------------- */
 const buttonOpen = document.getElementById('modalOpen');
 const modal = document.getElementById('easyModal');
 const buttonClose = document.getElementsByClassName('modalClose')[0];
@@ -56,9 +59,10 @@ if (e.target == modal) {
     modal.style.display = 'none';
 }
 }
-//================== ヘルプ・モーダルここまで ==================
     
-//================== GPCIデータ読込 ==================
+/* ----------------------------------------------------------------------------
+　GPCIデータ読み込み
+---------------------------------------------------------------------------- */
 // AjaxでJSONデータをロードする（同期処理）
 let gpci_all4ini = [];
 $.ajax({
@@ -80,10 +84,10 @@ $.ajax({
 	}
 });
 
-//================== GPCIデータ読込ここまで ==================
 
-
-//================== レイアウト設定 ==================
+/* ----------------------------------------------------------------------------
+　レイアウト設定
+---------------------------------------------------------------------------- */
 // 対象都市リスト：文字列リテラルでリスト作成
 for (let item of gpci_all4ini) {
     const option = `<option value=${item["City Name"]}>${item["City Name"]}</option>`
@@ -99,7 +103,7 @@ for (let item of indicators) {
         const tr = `<tr class="indicator heading_${item.split("_")[2]}" style="display: table-row;"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th><td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
         document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
     } else {
-        const tr = `<tr class="indicator heading_${item.split("_")[2]}"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th><td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
+        const tr = `<tr class="indicator heading_${item.split("_")[2]}"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}<td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
         document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
     }
 }; 
@@ -107,30 +111,30 @@ for (let item of indicators) {
 
 // スコアテーブルに分野名のヘディングを挿入する（条件分岐で日英切替）。
 if (lang === "en") {
-    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec">Economy</th></tr>'
+    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec"><img src="./img/remove.svg">Economy</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-    var Re_heading = '<tr class="function"><th colspan="2" class="Re">Research and Development</th></tr>'
+    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img src="./img/add.svg">Research and Development</th></tr>'
     document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-    var Cu_heading = '<tr class="function"><th colspan="2" class="Cu">Cultural Interaction</th></tr>'
+    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img src="./img/add.svg">Cultural Interaction</th></tr>'
     document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-    var Li_heading = '<tr class="function"><th colspan="2" class="Li">Livability</th></tr>'
+    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img src="./img/add.svg">Livability</th></tr>'
     document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-    var En_heading = '<tr class="function"><th colspan="2" class="En">Environment</th></tr>'
+    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img src="./img/add.svg">Environment</th></tr>'
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-    var Ac_heading = '<tr class="function"><th colspan="2" class="Ac">Accesibility</th></tr>'
+    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img src="./img/add.svg">Accesibility</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
 } else if (lang === "jp") {
-    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec">経済</th></tr>'
+    var Ec_heading = '<tr class="function"></th><th colspan="2" class="Ec"><img src="./img/remove.svg">経済</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-    var Re_heading = '<tr class="function"><th colspan="2" class="Re">研究・開発</th></tr>'
+    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img src="./img/add.svg">研究・開発</th></tr>'
     document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-    var Cu_heading = '<tr class="function"><th colspan="2" class="Cu">文化・交流</th></tr>'
+    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img src="./img/add.svg">文化・交流</th></tr>'
     document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-    var Li_heading = '<tr class="function"><th colspan="2" class="Li">居住</th></tr>'
+    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img src="./img/add.svg">居住</th></tr>'
     document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-    var En_heading = '<tr class="function"><th colspan="2" class="En">環境</th></tr>'
+    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img src="./img/add.svg">環境</th></tr>'
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-    var Ac_heading = '<tr class="function"><th colspan="2" class="Ac">交通・アクセス</th></tr>'
+    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img src="./img/add.svg">交通・アクセス</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
 }
 
@@ -172,10 +176,11 @@ jQuery(function(){
     $(this).addClass('active');
     });
 });
-//================== レイアウト設定ここまで ==================
 
 
-//================== イニシャルグラフ描画 ==================
+/* ----------------------------------------------------------------------------
+　イニシャル・グラフ描画
+---------------------------------------------------------------------------- */
 
   // スコアデータから指標#1-70の部分を抽出する。
   let gpci_initial = gpci_all4ini.map(item => ({
@@ -186,7 +191,7 @@ jQuery(function(){
     "Livability": item["Livability"],
     "Environment": item["Environment"],
     "Accessibility": item["Accessibility"],
-    "Total": item["Comprehensive"]
+    "Comprehensive": item["Comprehensive"]
   }));
 
   // set the dimensions and margins of the graph
@@ -210,10 +215,10 @@ jQuery(function(){
 
 
   // 降順でソートする。
-  gpci_initial.sort((a,b) => b["Total"] - a["Total"])
+  gpci_initial.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
   
   // totalの要素を削除する。
-  gpci_initial.map((item) => delete item["Total"])
+  //gpci_initial.map((item) => delete item["Total"])
 
   // List of subgroups = header of the csv files = soil condition here
   const subgroups = ["Economy","R&D","Cultural Interaction","Livability","Environment","Accessibility"]
@@ -264,10 +269,24 @@ jQuery(function(){
     .attr("width", d => x(d[1]) - x(d[0]))
     .attr("height", y.bandwidth())
 
-//================== イニシャルグラフ描画ここまで ==================
+  // Show the scores
+  svg.append("g")
+    .selectAll("g")
+    .data(stackedData)
+    .join("g")
+    .selectAll("text")
+    .data(d => d)
+    .join("text")
+    .attr("x", d => x(d.data["Comprehensive"]*1.01)) // Center text within the bar
+    .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
+    .text(d => d.data["Comprehensive"])
+    .attr("fill", "black")
+    .attr("font-size", "9px")
+    .attr("text-anchor", "top"); // Center-align text
 
-
-//================== 都市の選択とスコア表示 ==================
+/* ----------------------------------------------------------------------------
+　都市の選択とスコア表示
+---------------------------------------------------------------------------- */
 function selectCity(){
   
     // 対象都市のデータを抽出する（オブジェクト）。
@@ -308,10 +327,11 @@ function selectCity(){
         children.toggle(children.first().is(":hidden"))
     })     
 }
-//================== 都市の選択とスコア表示ここまで ==================
 
 
-//================== シミュレーション ==================
+/* ----------------------------------------------------------------------------
+　シミュレーション
+---------------------------------------------------------------------------- */
 function draw(){
 
   const target = document.getElementById("city").value;
@@ -550,7 +570,7 @@ function draw(){
           "Livability": gpci_f[i]["Livability"],
           "Environment": gpci_f[i]["Environment"],
           "Accessibility": gpci_f[i]["Accessibility"],
-          "Comprehensive": (gpci_f[i]["Economy"] + gpci_f[i]["R&D"] + gpci_f[i]["Cultural Interaction"] + gpci_f[i]["Livability"] + gpci_f[i]["Environment"] + gpci_f[i]["Accessibility"]) 
+          "Comprehensive": parseFloat((gpci_f[i]["Economy"] + gpci_f[i]["R&D"] + gpci_f[i]["Cultural Interaction"] + gpci_f[i]["Livability"] + gpci_f[i]["Environment"] + gpci_f[i]["Accessibility"])).toFixed(1) 
         };
         
       gpci_sim.push(arr);
@@ -606,6 +626,8 @@ function draw(){
     .keys(subgroups)
     (gpci_sim)
 
+  console.log(stackedData)
+
   // Show the bars
   svg.append("g")
     .selectAll("g")
@@ -622,6 +644,23 @@ function draw(){
     .attr("width", d => x(d[1]) - x(d[0]))
     .attr("height", y.bandwidth())
 
+  
+  // Show the scores
+  svg.append("g")
+    .selectAll("g")
+    .data(stackedData)
+    .join("g")
+    .selectAll("text")
+    .data(d => d)
+    .join("text")
+    .attr("x", d => x(d.data["Comprehensive"]*1.01)) // Center text within the bar
+    .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
+    .text(d => d.data["Comprehensive"])
+    .attr("fill", "black")
+    .attr("font-size", "9px")
+    .attr("text-anchor", "top"); // Center-align text
+
+
 
   // Coloring the target city
   svg.selectAll("text")
@@ -634,4 +673,4 @@ function draw(){
   });
 
 };
-//================== シミュレーションここまで ==================
+
