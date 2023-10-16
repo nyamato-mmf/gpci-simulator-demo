@@ -111,30 +111,30 @@ for (let item of indicators) {
 
 // スコアテーブルに分野名のヘディングを挿入する（条件分岐で日英切替）。
 if (lang === "en") {
-    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec"><img src="./img/remove.svg">Economy</th></tr>'
+    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec"><img class="toggle" src="./img/remove.svg">Economy</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img src="./img/add.svg">Research and Development</th></tr>'
+    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img class="toggle" src="./img/add.svg">Research and Development</th></tr>'
     document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img src="./img/add.svg">Cultural Interaction</th></tr>'
+    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img class="toggle" src="./img/add.svg">Cultural Interaction</th></tr>'
     document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img src="./img/add.svg">Livability</th></tr>'
+    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img class="toggle" src="./img/add.svg">Livability</th></tr>'
     document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img src="./img/add.svg">Environment</th></tr>'
+    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img class="toggle" src="./img/add.svg">Environment</th></tr>'
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img src="./img/add.svg">Accesibility</th></tr>'
+    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img class="toggle" src="./img/add.svg">Accesibility</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
 } else if (lang === "jp") {
-    var Ec_heading = '<tr class="function"></th><th colspan="2" class="Ec"><img src="./img/remove.svg">経済</th></tr>'
+    var Ec_heading = '<tr class="function"></th><th colspan="2" class="Ec"><img class="toggle" src="./img/remove.svg">経済</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img src="./img/add.svg">研究・開発</th></tr>'
+    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img class="toggle" src="./img/add.svg">研究・開発</th></tr>'
     document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img src="./img/add.svg">文化・交流</th></tr>'
+    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img class="toggle" src="./img/add.svg">文化・交流</th></tr>'
     document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img src="./img/add.svg">居住</th></tr>'
+    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img class="toggle" src="./img/add.svg">居住</th></tr>'
     document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img src="./img/add.svg">環境</th></tr>'
+    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img class="toggle" src="./img/add.svg">環境</th></tr>'
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img src="./img/add.svg">交通・アクセス</th></tr>'
+    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img class="toggle" src="./img/add.svg">交通・アクセス</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
 }
 
@@ -176,6 +176,27 @@ jQuery(function(){
     $(this).addClass('active');
     });
 });
+
+
+// 分野別スコアの表示/非表示切り替え
+jQuery(".function").click(function() {
+  var children = $(this).nextUntil(".function").filter(".indicator")
+  jQuery(".indicator").hide()
+  children.toggle(children.first().is(":hidden"))
+
+  console.log($(this))
+  console.log($(this).next())
+  console.log($(".toggle", $(this)))
+  const temp = $(".toggle", $(this)).attr("src")
+  console.log(temp)
+
+  if (temp === "./img/add.svg") {
+    $(".toggle", $(this)).attr("src", "./img/remove.svg")
+  } else if (temp === "./img/remove.svg") {
+    $(".toggle", $(this)).attr("src", "./img/add.svg")
+  }
+
+})    
 
 
 /* ----------------------------------------------------------------------------
@@ -281,6 +302,7 @@ jQuery(function(){
     .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
     .text(d => d.data["Comprehensive"])
     .attr("fill", "black")
+    .attr("font-family", "sans-serif")
     .attr("font-size", "9px")
     .attr("text-anchor", "top"); // Center-align text
 
@@ -319,13 +341,7 @@ function selectCity(){
       } else {
         return "black";}
     });
-
-    // 分野別スコアの表示/非表示切り替え
-    jQuery(".function").click(function() {
-        var children = $(this).nextUntil(".function").filter(".indicator")
-        jQuery(".indicator").hide()
-        children.toggle(children.first().is(":hidden"))
-    })     
+ 
 }
 
 
@@ -657,6 +673,7 @@ function draw(){
     .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
     .text(d => d.data["Comprehensive"])
     .attr("fill", "black")
+    .attr("font-family", "sans-serif")
     .attr("font-size", "9px")
     .attr("text-anchor", "top"); // Center-align text
 
