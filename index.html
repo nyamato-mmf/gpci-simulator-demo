@@ -46,7 +46,7 @@
 
             <div id="controller">
                 <ul class="controller-list">
-                    <!-- Select box (target cities' list) -->
+                    <!-- セレクトリスト (都市選択) -->
                     <li class="controller-item1">
                         <form>
                             <select id="city" class="select">
@@ -55,15 +55,13 @@
                         </form>
                     </li>
 
-                    <!-- Button (Show the selected city's score) -->
+                    <!-- ボタン (Show / Draw / Reset) -->
                     <li class="controller-item2">
                         <input type="button" value="" id="show" class="btn" onclick="selectCity()"/>
-                    </li>
-                    <!-- Button (Draw the city's graph) -->                    
+                    </li>                
                     <li class="controller-item3">
                         <input type="button" value="" id="sim" class="btn" onclick="draw()"/>
                     </li>
-                    <!-- Button (Reset the data) -->
                     <li class="controller-item4">
                         <input type="button" value="" id="reset" class="btn" onClick="document.location.reload(true)">
                     </li>

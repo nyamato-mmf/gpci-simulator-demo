@@ -43,20 +43,20 @@ const buttonClose = document.getElementsByClassName('modalClose')[0];
 // ボタンがクリックされた時
 buttonOpen.addEventListener('click', modalOpen);
 function modalOpen() {
-modal.style.display = 'block';
+  modal.style.display = 'block';
 }
 
 // バツ印がクリックされた時
 buttonClose.addEventListener('click', modalClose);
 function modalClose() {
-modal.style.display = 'none';
+  modal.style.display = 'none';
 }
 
 // モーダルコンテンツ以外がクリックされた時
 addEventListener('click', outsideClose);
 function outsideClose(e) {
 if (e.target == modal) {
-    modal.style.display = 'none';
+  modal.style.display = 'none';
 }
 }
     
@@ -108,37 +108,88 @@ for (let item of indicators) {
     }
 }; 
 
-
 // スコアテーブルに分野名のヘディングを挿入する（条件分岐で日英切替）。
 if (lang === "en") {
-    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec"><img class="toggle" src="./img/remove.svg">Economy</th></tr>'
+    var Ec_heading = '<tr class="function"><th colspan="2" class="Ec"><span class="open">＋</span><span class="close">－</span>Economy</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img class="toggle" src="./img/add.svg">Research and Development</th></tr>'
+    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><span class="open">＋</span><span class="close">－</span>Research and Development</th></tr>'
     document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img class="toggle" src="./img/add.svg">Cultural Interaction</th></tr>'
+    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><span class="open">＋</span><span class="close">－</span>Cultural Interaction</th></tr>'
     document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img class="toggle" src="./img/add.svg">Livability</th></tr>'
+    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><span class="open">＋</span><span class="close">－</span>Livability</th></tr>'
     document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img class="toggle" src="./img/add.svg">Environment</th></tr>'
+    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><span class="open">＋</span><span class="close">－</span>Environment</th></tr>'
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img class="toggle" src="./img/add.svg">Accesibility</th></tr>'
+    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><span class="open">＋</span><span class="close">－</span>Accesibility</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
 } else if (lang === "jp") {
-    var Ec_heading = '<tr class="function"></th><th colspan="2" class="Ec"><img class="toggle" src="./img/remove.svg">経済</th></tr>'
+    var Ec_heading = '<tr class="function"></th><th colspan="2" class="Ec"><span class="open">＋</span><span class="close">－</span>経済</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
-    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><img class="toggle" src="./img/add.svg">研究・開発</th></tr>'
+    var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><span class="open">＋</span><span class="close">－</span>研究・開発</th></tr>'
     document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
-    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><img class="toggle" src="./img/add.svg">文化・交流</th></tr>'
+    var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><span class="open">＋</span><span class="close">－</span>文化・交流</th></tr>'
     document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
-    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><img class="toggle" src="./img/add.svg">居住</th></tr>'
+    var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><span class="open">＋</span><span class="close">－</span>居住</th></tr>'
     document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
-    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><img class="toggle" src="./img/add.svg">環境</th></tr>'
+    var En_heading = '<tr class="function"></th><th colspan="2" class="En"><span class="open">＋</span><span class="close">－</span>環境</th></tr>'
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
-    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><img class="toggle" src="./img/add.svg">交通・アクセス</th></tr>'
+    var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><span class="open">＋</span><span class="close">－</span>交通・アクセス</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
 }
 
+/* ----------------------------------------------------------------------------
+　アコーディオンパネル（分野別スコアの表示/非表示切り替え）
+---------------------------------------------------------------------------- */
+jQuery(function() {
 
+  // 初期設定
+  $(".open:first").css("display","none");
+  $(".close:not(:first)").css("display","none");
+
+  // イベント処理（openボタン）
+  $(".open").on("click", function() {
+
+    // 要素を取得する。
+    var parent = $(this).parents(".function");
+    var children = parent.nextUntil(".function").filter(".indicator")
+
+    // 表示を切り替える。
+    $(".indicator").hide()
+    children.toggle(children.first().is(":hidden"))
+
+    // +/-ラベルを切り替える。
+    $(this).hide();
+    $(this).next().show();
+  });
+
+  // イベント処理（closeボタン）
+  $(".close").on("click", function() {
+    
+    // 要素を取得する。
+    var parent = $(this).parents(".function");
+    var children = parent.nextUntil(".function").filter(".indicator")
+
+    // 表示を切り替える。
+    $(".indicator").hide()
+    //children.toggle(children.first().is(":hidden"))
+
+    // +/-ラベルを切り替える。
+    $(this).hide();
+    $(this).prev().show();
+  });
+});
+
+// セルのハイライト：Highlight edited cells in gray
+jQuery(function(){
+  var cell = $('.inputTable');
+  cell.change(function(){
+  $(this).addClass('active');
+  });
+});
+
+/* ----------------------------------------------------------------------------
+　凡例
+---------------------------------------------------------------------------- */
 // 凡例のリスト（日英）
 const legends = [
     {"Ec_legend":["Economy","経済"]},
@@ -160,7 +211,9 @@ for (j of legends) {
     }
 }
 
-// アラート：Alart message if the input number is inappropriate
+/* ----------------------------------------------------------------------------
+　アラート：Alart message if the input number is inappropriate
+---------------------------------------------------------------------------- */
 jQuery("input[type=number]").on("change", function(event){
     var val = this.value;
     if (val > 100 || val < 0) {
@@ -169,34 +222,6 @@ jQuery("input[type=number]").on("change", function(event){
     }
 });
 
-// セルのハイライト：Highlight edited cells in gray
-jQuery(function(){
-    var cell = $('.inputTable');
-    cell.change(function(){
-    $(this).addClass('active');
-    });
-});
-
-
-// 分野別スコアの表示/非表示切り替え
-jQuery(".function").click(function() {
-  var children = $(this).nextUntil(".function").filter(".indicator")
-  jQuery(".indicator").hide()
-  children.toggle(children.first().is(":hidden"))
-
-  console.log($(this))
-  console.log($(this).next())
-  console.log($(".toggle", $(this)))
-  const temp = $(".toggle", $(this)).attr("src")
-  console.log(temp)
-
-  if (temp === "./img/add.svg") {
-    $(".toggle", $(this)).attr("src", "./img/remove.svg")
-  } else if (temp === "./img/remove.svg") {
-    $(".toggle", $(this)).attr("src", "./img/add.svg")
-  }
-
-})    
 
 
 /* ----------------------------------------------------------------------------
