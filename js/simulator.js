@@ -146,8 +146,10 @@ jQuery(function() {
   $(".open:first").css("display","none");
   $(".close:not(:first)").css("display","none");
 
-  // イベント処理（openボタン）
+  // イベント処理（openボタン押下）
   $(".open").on("click", function() {
+    $(".open").css("display","");
+    $(".close").css("display","none");
 
     // 要素を取得する。
     var parent = $(this).parents(".function");
@@ -162,7 +164,7 @@ jQuery(function() {
     $(this).next().show();
   });
 
-  // イベント処理（closeボタン）
+  // イベント処理（closeボタン押下）
   $(".close").on("click", function() {
     
     // 要素を取得する。
