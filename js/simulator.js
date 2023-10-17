@@ -7,30 +7,33 @@ const path = "./json/gpci2023_" + lang + ".json"
 　日本語・英語切替
 ---------------------------------------------------------------------------- */
 
-if (lang === "en") {
-  document.getElementById("desc1").textContent = "The GPCI Simulator allows a user to change indicator scores of a certain city to simulate changes in the GPCI ranking.";
-  document.getElementById("desc2").textContent = "How to use the simulator";
-  document.getElementById("desc3").textContent = "1. Select a city from the drop-down menu and press 'Show scores' button.";
-  document.getElementById("desc4").textContent = "2. Change scores between 0 and 100.";
-  document.getElementById("desc5").textContent = "3. Press the 'Simulate' button.";
-  document.getElementById("desc6").textContent = "4. Press the 'Reset' button to restart.";
-  document.getElementById("show").value = "Show scores";
-  document.getElementById("sim").value = "Simulate";
-  document.getElementById("reset").value = "Reset";
-  document.getElementById("table-header1").textContent = "Indicator";
-  document.getElementById("table-header2").textContent = "Score";
-} else if (lang === "jp") {
-  document.getElementById("desc1").textContent = "選択した都市の指標スコアを変更することで、GPCIにおける順位変動をシミュレーションすることができます。";
-  document.getElementById("desc2").textContent = "シミュレータの使い方";
-  document.getElementById("desc3").textContent = "1. メニューから都市を選択し、「スコア表示」ボタンを押します。";
-  document.getElementById("desc4").textContent = "2. 0点から100点の間でスコアを変更します。";
-  document.getElementById("desc5").textContent = "3.「シミュレーション」ボタンを押します。";
-  document.getElementById("desc6").textContent = "4.「リセット」ボタンを押すと、初期値に戻ります。";
-  document.getElementById("show").value = "スコア表示";
-  document.getElementById("sim").value = "シミュレーション";
-  document.getElementById("reset").value = "リセット";
-  document.getElementById("table-header1").textContent = "指標";
-  document.getElementById("table-header2").textContent = "スコア";
+switch (lang) {
+  case "en":
+    document.getElementById("desc1").textContent = "The GPCI Simulator allows a user to change indicator scores of a certain city to simulate changes in the GPCI ranking.";
+    document.getElementById("desc2").textContent = "How to use the simulator";
+    document.getElementById("desc3").textContent = "1. Select a city from the drop-down menu and press 'Show scores' button.";
+    document.getElementById("desc4").textContent = "2. Change scores between 0 and 100.";
+    document.getElementById("desc5").textContent = "3. Press the 'Simulate' button.";
+    document.getElementById("desc6").textContent = "4. Press the 'Reset' button to restart.";
+    document.getElementById("show").value = "Show scores";
+    document.getElementById("sim").value = "Simulate";
+    document.getElementById("reset").value = "Reset";
+    document.getElementById("table-header1").textContent = "Indicator";
+    document.getElementById("table-header2").textContent = "Score";
+    break;
+  case "jp":
+    document.getElementById("desc1").textContent = "選択した都市の指標スコアを変更することで、GPCIにおける順位変動をシミュレーションすることができます。";
+    document.getElementById("desc2").textContent = "シミュレータの使い方";
+    document.getElementById("desc3").textContent = "1. メニューから都市を選択し、「スコア表示」ボタンを押します。";
+    document.getElementById("desc4").textContent = "2. 0点から100点の間でスコアを変更します。";
+    document.getElementById("desc5").textContent = "3.「シミュレーション」ボタンを押します。";
+    document.getElementById("desc6").textContent = "4.「リセット」ボタンを押すと、初期値に戻ります。";
+    document.getElementById("show").value = "スコア表示";
+    document.getElementById("sim").value = "シミュレーション";
+    document.getElementById("reset").value = "リセット";
+    document.getElementById("table-header1").textContent = "指標";
+    document.getElementById("table-header2").textContent = "スコア";
+    break;
 }
 
 /* ----------------------------------------------------------------------------
@@ -118,7 +121,8 @@ for (let item of indicators) {
 }; 
 
 // スコアテーブルに分野名のヘディングを挿入する（条件分岐で日英切替）。
-if (lang === "en") {
+switch (lang) {
+  case "en":
     var Ec_heading = '<tr class="function"><th colspan="2" class="Ec"><span class="open">＋</span><span class="close">－</span>Economy</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
     var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><span class="open">＋</span><span class="close">－</span>Research and Development</th></tr>'
@@ -131,7 +135,8 @@ if (lang === "en") {
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
     var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><span class="open">＋</span><span class="close">－</span>Accesibility</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
-} else if (lang === "jp") {
+    break;
+  case "jp":
     var Ec_heading = '<tr class="function"></th><th colspan="2" class="Ec"><span class="open">＋</span><span class="close">－</span>経済</th></tr>'
     document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
     var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><span class="open">＋</span><span class="close">－</span>研究・開発</th></tr>'
@@ -144,6 +149,7 @@ if (lang === "en") {
     document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
     var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><span class="open">＋</span><span class="close">－</span>交通・アクセス</th></tr>'
     document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
+    break;
 }
 
 /* ----------------------------------------------------------------------------
@@ -213,13 +219,16 @@ const legends = [
 
 // 文字列リテラルで凡例を作成（条件分岐で日英切替）
 for (j of legends) {
-    if (lang === "en") {
-        const legend = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][0]}</li>`
-        document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend)
-    } else if (lang === "jp") {
-        const legend = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][1]}</li>`
-        document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend)
-    }
+  switch (lang) {
+    case "en":
+      const legend_en = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][0]}</li>`
+      document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend_en)
+      break;
+    case "jp":
+      const legend_jp = `<li class="${Object.keys(j)[0]}">${Object.values(j)[0][1]}</li>`
+      document.getElementById("legend-list").insertAdjacentHTML("beforeend",legend_jp)
+      break;
+  }
 }
 
 /* ----------------------------------------------------------------------------
