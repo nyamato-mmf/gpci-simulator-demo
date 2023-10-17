@@ -40,13 +40,13 @@ const buttonOpen = document.getElementById('modalOpen');
 const modal = document.getElementById('easyModal');
 const buttonClose = document.getElementsByClassName('modalClose')[0];
 
-// ボタンがクリックされた時
+// アイコンがクリックされた時
 buttonOpen.addEventListener('click', modalOpen);
 function modalOpen() {
   modal.style.display = 'block';
 }
 
-// バツ印がクリックされた時
+// X印がクリックされた時
 buttonClose.addEventListener('click', modalClose);
 function modalClose() {
   modal.style.display = 'none';
@@ -99,10 +99,20 @@ var indicators = Object.keys(gpci_all4ini[0]).slice(1,71)
 // スコアテーブル：文字列リテラルで作成（条件分岐で経済指標に「style="display: table-row;"」を付与）
 for (let item of indicators) {
     if (item.split("_")[2] === "Ec"){
-        const tr = `<tr class="indicator heading_${item.split("_")[2]}" style="display: table-row;"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th><td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
+        const tr = `<tr class="indicator heading_${item.split("_")[2]}" style="display: table-row;">
+                      <th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th>
+                      <td class="td_${item.split("_")[2]}">
+                        <input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable">
+                      </td>
+                    </tr>`
         document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
     } else {
-        const tr = `<tr class="indicator heading_${item.split("_")[2]}"><th class="th_${item.split("_")[2]}">${item.split("_")[3]}<td class="td_${item.split("_")[2]}"><input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable"></td></tr>`
+        const tr = `<tr class="indicator heading_${item.split("_")[2]}">
+                      <th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th>
+                      <td class="td_${item.split("_")[2]}">
+                        <input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable">
+                      </td>
+                    </tr>`
         document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
     }
 }; 
