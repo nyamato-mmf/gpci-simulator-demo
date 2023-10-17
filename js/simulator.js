@@ -180,7 +180,7 @@ jQuery(function() {
   });
 });
 
-// セルのハイライト：Highlight edited cells in gray
+// 数値変更セルのハイライト
 jQuery(function(){
   var cell = $('.inputTable');
   cell.change(function(){
@@ -257,7 +257,6 @@ jQuery("input[type=number]").on("change", function(event){
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
-
 
   // 降順でソートする。
   gpci_initial.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
@@ -646,7 +645,6 @@ function draw(){
   svg.append("g")
     .call(d3.axisTop(x));
  
-
   // Y軸を描画する。
   const y = d3.scaleBand()
     .domain(groups)
