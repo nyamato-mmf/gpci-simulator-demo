@@ -1,10 +1,11 @@
 
-// 言語設定
+// 言語 ("en"/"jp") および 年次設定
 const lang = "en"
-const path = "./json/gpci2023_" + lang + ".json"
+const year = "2023"
+const path = "./json/gpci" + year +"_" + lang + ".json"
 
 /* ----------------------------------------------------------------------------
-　日本語・英語切替
+　使用方法（ヘルプメニュー）
 ---------------------------------------------------------------------------- */
 
 switch (lang) {
@@ -232,168 +233,157 @@ for (j of legends) {
 }
 
 /* ----------------------------------------------------------------------------
-　アラート：Alart message if the input number is inappropriate
+　アラート：入力ミスの際にメッセージ
 ---------------------------------------------------------------------------- */
 jQuery("input[type=number]").on("change", function(event){
     var val = this.value;
     if (val > 100 || val < 0) {
-    window.alert("Please enter numbers between 0 and 100.")
-    document.getElementById(event.target.id).value = 0
+      switch (lang) {
+        case "en":
+          window.alert("Please enter numbers between 0 and 100.")
+          document.getElementById(event.target.id).value = 0
+          break;
+        case "jp":
+          window.alert("0点から100点の間でスコアを入力してください。")
+          document.getElementById(event.target.id).value = 0
+          break;
+      }
     }
 });
 
 /* ----------------------------------------------------------------------------
 　イニシャル・グラフ描画
 ---------------------------------------------------------------------------- */
+// スコアデータから指標#1-70の部分を抽出する。
+let gpci_initial = gpci_all4ini.map(item => ({
+  "City Name": item["City Name"],
+  "Economy": item["Economy"],
+  "R&D": item["R&D"],
+  "Cultural Interaction": item["Cultural Interaction"],
+  "Livability": item["Livability"],
+  "Environment": item["Environment"],
+  "Accessibility": item["Accessibility"],
+  "Comprehensive": item["Comprehensive"]
+}));
 
-  // スコアデータから指標#1-70の部分を抽出する。
-  let gpci_initial = gpci_all4ini.map(item => ({
-    "City Name": item["City Name"],
-    "Economy": item["Economy"],
-    "R&D": item["R&D"],
-    "Cultural Interaction": item["Cultural Interaction"],
-    "Livability": item["Livability"],
-    "Environment": item["Environment"],
-    "Accessibility": item["Accessibility"],
-    "Comprehensive": item["Comprehensive"]
-  }));
-
-  // set the dimensions and margins of the graph
-  const margin = { top: 30, right: 30, bottom: 20, left: 100 };
-  let width = 460 - margin.left - margin.right;
-  const height = 800 - margin.top - margin.bottom;
-    
-  // スマホ用のwidth設定
-  const sw = window.screen.width
-  if (sw < 800) {
-    width = (sw - 30) - margin.left - margin.right;      
-  }
+// グラフサイズの設定
+const margin = { top: 30, right: 30, bottom: 20, left: 100 };
+let width = 460 - margin.left - margin.right;
+const height = 800 - margin.top - margin.bottom;
   
-  // append the svg object to the body of the page
-  const svg = d3.select("#my_dataviz")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+// スマホ用のwidth設定
+const sw = window.screen.width
+if (sw < 800) {
+  width = (sw - 30) - margin.left - margin.right;      
+}
 
-  // 降順でソートする。
-  gpci_initial.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
-  
-  // totalの要素を削除する。
-  //gpci_initial.map((item) => delete item["Total"])
+// svgオブジェクトをbodyに追加する。
+const svg = d3.select("#my_dataviz")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  // List of subgroups = header of the csv files = soil condition here
-  const subgroups = ["Economy","R&D","Cultural Interaction","Livability","Environment","Accessibility"]
+// 降順（GPCI順位）でソートする。
+gpci_initial.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
 
-  // List of groups = species here = value of the first column called group -> I show them on the X axis
-  const groups = gpci_initial.map(d => (d["City Name"]))
+// GPCI分野名の配列を作成する。
+const subgroups = ["Economy","R&D","Cultural Interaction","Livability","Environment","Accessibility"]
 
-  // X軸を描画する。
-  const x = d3.scaleLinear()
-    .domain([0, 1800])
-    .range([0, width]);
-  svg.append("g")
-    .call(d3.axisTop(x));
-  
-  // Y軸を描画する。
-  const y = d3.scaleBand()
-    .domain(groups)
-    .range([0, height])
-    .padding([0.2])
-  svg.append("g")
-    .attr("transform", `translate(0, 0)`)
-    .style("font-size",12)
-    .call(d3.axisLeft(y).tickSizeOuter(0))
+// 都市名の配列（ランク順）
+const groups = gpci_initial.map(d => (d["City Name"]))
 
-  // カラーパレットを用意する。
-  const color = d3.scaleOrdinal()
-    .domain(subgroups)
-    .range(['rgba(189,178,255,1)', 'rgba(160,196,255,1)', 'rgba(255,198,255,1)','rgba(155,246,255,1)', 'rgba(202,255,191,1)', 'rgba(255,214,165,1)'])
+// X軸を描画する。
+const x = d3.scaleLinear()
+  .domain([0, 1800])
+  .range([0, width]);
+svg.append("g")
+  .call(d3.axisTop(x));
 
+// Y軸を描画する。
+const y = d3.scaleBand()
+  .domain(groups)
+  .range([0, height])
+  .padding([0.2])
+svg.append("g")
+  .attr("transform", `translate(0, 0)`)
+  .style("font-size",12)
+  .call(d3.axisLeft(y).tickSizeOuter(0))
 
-  // 積み上げ棒グラフ用のデータを用意する。
-  const stackedData = d3.stack()
-    .keys(subgroups)
-    (gpci_initial)
+// カラー配列を用意する。
+const color = d3.scaleOrdinal()
+  .domain(subgroups)
+  .range(['rgba(189,178,255,1)', 'rgba(160,196,255,1)', 'rgba(255,198,255,1)','rgba(155,246,255,1)', 'rgba(202,255,191,1)', 'rgba(255,214,165,1)'])
 
-  // 積み上げ棒グラフを描画する。
-  svg.append("g")
-    .selectAll("g")
-    // Enter in the stack data = loop key per key = group per group
-    .data(stackedData)
-    .join("g")
-    .attr("fill", d => color(d.key))
-    .selectAll("rect")
-    // enter a second time = loop subgroup per subgroup to add all rectangles
-    .data(d => d)
-    .join("rect")
-    .attr("x", d => x(d[0]))
-    .attr("y", d => y(d.data["City Name"]))
-    .attr("width", d => x(d[1]) - x(d[0]))
-    .attr("height", y.bandwidth())
+// 積み上げ横棒グラフ用のデータを用意する。
+const stackedData = d3.stack()
+  .keys(subgroups)
+  (gpci_initial)
 
-  // スコアを表示する。
-  svg.append("g")
-    .selectAll("g")
-    .data(stackedData)
-    .join("g")
-    .selectAll("text")
-    .data(d => d)
-    .join("text")
-    .attr("x", d => x(d.data["Comprehensive"]*1.01)) // Center text within the bar
-    .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
-    .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
-    .attr("fill", "gray")
-    .attr("font-family", "Helvetica")
-    .attr("font-size", "10px")
-    .attr("text-anchor", "top"); // Center-align text
+// 積み上げ横棒グラフを描画する。
+svg.append("g")
+  .selectAll("g")
+  // Enter in the stack data = loop key per key = group per group
+  .data(stackedData)
+  .join("g")
+  .attr("fill", d => color(d.key))
+  .selectAll("rect")
+  // enter a second time = loop subgroup per subgroup to add all rectangles
+  .data(d => d)
+  .join("rect")
+  .attr("x", d => x(d[0]))
+  .attr("y", d => y(d.data["City Name"]))
+  .attr("width", d => x(d[1]) - x(d[0]))
+  .attr("height", y.bandwidth())
+
+// スコアを表示する。
+svg.append("g")
+  .selectAll("g")
+  .data(stackedData)
+  .join("g")
+  .selectAll("text")
+  .data(d => d)
+  .join("text")
+  .attr("x", d => x(d.data["Comprehensive"]*1.01)) // 横棒グラフの右側に合計スコアラベル
+  .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // 上下位置の調整
+  .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
+  .attr("fill", "gray")
+  .attr("font-family", "Helvetica")
+  .attr("font-size", "10px")
+  .attr("text-anchor", "top");
 
 /* ----------------------------------------------------------------------------
 　都市の選択とスコア表示
 ---------------------------------------------------------------------------- */
-function selectCity(){
+function selectCity() {
+  const target = document.getElementById("city").value;
+  const targetScore = gpci_all4ini.find(item => item["City Name"] === target);
   
-    // 対象都市のデータを抽出する（オブジェクト）。
-	var target = document.getElementById("city").value;
-    let targetScore = gpci_all4ini.filter(function(item, index){
-        if (item["City Name"] === target) return true;
-    });
-      
-    // オブジェクトから対象都市名のプロパティを削除する。
-    targetScore.map((item) => delete item["City Name"])
-    targetScore.map((item) => delete item["Economy"])
-    targetScore.map((item) => delete item["R&D"])
-    targetScore.map((item) => delete item["Cultural Interaction"])
-    targetScore.map((item) => delete item["Livability"])
-    targetScore.map((item) => delete item["Environment"])
-    targetScore.map((item) => delete item["Accessibility"])
-    targetScore.map((item) => delete item["Comprehensive"])
-    
-    // 対象都市のデータをテーブルに表示する。
-    for (let i in targetScore[0]) {
-      document.getElementById("id_"+i.split("_")[0]).value = parseFloat(targetScore[0][i]).toFixed(1);
-    }
-      
-    // 対象都市の都市名のカラーを変更する。
-    svg.selectAll("text")
-    .attr("fill", function(d){
-      var item = d;
-      if (item === target) {
-        return "red";
-      } else {
-        return "gray";}
-    });
- 
-}
+  if (targetScore) {
+    const fieldsToDelete = ["City Name", "Economy", "R&D", "Cultural Interaction", "Livability", "Environment", "Accessibility", "Comprehensive"];
+    fieldsToDelete.forEach(field => delete targetScore[field]);
 
+    for (const key in targetScore) {
+      document.getElementById("id_" + key.split("_")[0]).value = parseFloat(targetScore[key]).toFixed(1);
+    }
+
+    svg.selectAll("text")
+      // 三項演算子（条件式 ? Trueの処理 : Falseの処理）
+      .attr("fill", d => d === target ? "red" : "gray");
+  }
+}
 
 /* ----------------------------------------------------------------------------
 　シミュレーション
 ---------------------------------------------------------------------------- */
 function draw(){
 
+  // 対象都市を取得する。
   const target = document.getElementById("city").value;
+
+  //===== 不要なプロパティ（keys & values）を削除する。=====//
+  // 削除するキーの配列を用意する。
   const keysToDelete = [
     "Economy",
     "R&D",
@@ -404,25 +394,25 @@ function draw(){
     "Comprehensive"
   ];
 
-  // Remove unnecessary properties
+  // 不要なプロパティを削除する。
   gpci_all4sim.forEach((item) => {
     keysToDelete.forEach((key) => delete item[key]);
   });
 
+  // 対象都市のデータを抽出する。
   const sim_gpci = gpci_all4sim.filter((item) => item["City Name"] === target);
     
-  // 対象都市のデータをテーブルに表示する。
-  let k = 1;
+  // 対象都市のデータを<html>の<table>に表示する。
   const obj = Object.keys(sim_gpci[0]);
-  while (k < obj.length) {
-    sim_gpci[0][obj[k]] = parseFloat(document.getElementById("id_"+obj[k].split("_")[0]).value);
-    k++;
+  for (let k = 1; k < obj.length; k++) {
+    const key = obj[k];
+    const id = "id_" + key.split("_")[0];
+    sim_gpci[0][key] = parseFloat(document.getElementById(id).value);
   }
-  
-  // Indicator group score
+
+  // 対象都市の指標グループスコア
   let gpci_idg = [];
-  const num_of_Cities = Object.values(gpci_all4sim).length;
-  for (let i = 0; i < num_of_Cities; i++) {
+  for (let i = 0; i < gpci_all4sim.length; i++) {
 
     let arr = {};
     let tempEc1 = []
@@ -599,56 +589,55 @@ function draw(){
      gpci_idg.push(arr);
   };
     
-    // Function score
-    var gpci_f = [];
-    for (var i = 0; i <= 47; i++) {
-      var arr = [
+  // 対象都市の分野別スコア
+  var gpci_f = [];
+  for (var i = 0; i <= 47; i++) {
+    var arr = [
+    {
+      "City Name": gpci_idg[i]["City Name"], 
+      "Economy": (gpci_idg[i]["Ec1"] + gpci_idg[i]["Ec2"] + gpci_idg[i]["Ec3"] + gpci_idg[i]["Ec4"] + gpci_idg[i]["Ec5"] + gpci_idg[i]["Ec6"]),
+      "R&D":  (gpci_idg[i]["Re1"] + gpci_idg[i]["Re2"] + gpci_idg[i]["Re3"]),
+      "Cultural Interaction": (gpci_idg[i]["Cu1"] + gpci_idg[i]["Cu2"] + gpci_idg[i]["Cu3"] + gpci_idg[i]["Cu4"] + gpci_idg[i]["Cu5"]),
+      "Livability": (gpci_idg[i]["Li1"] + gpci_idg[i]["Li2"] + gpci_idg[i]["Li3"] + gpci_idg[i]["Li4"] + gpci_idg[i]["Li5"]),
+      "Environment": (gpci_idg[i]["En1"] + gpci_idg[i]["En2"] + gpci_idg[i]["En3"]),
+      "Accessibility": (gpci_idg[i]["Ac1"] + gpci_idg[i]["Ac2"] + gpci_idg[i]["Ac3"] + gpci_idg[i]["Ac4"])
+    }
+    ];
+    gpci_f.push(arr[0]);
+  };
+
+  // 対象都市の総合スコア
+  var gpci_sim = [];
+  for (var i = 0; i <= 47; i++) {
+    var arr = 
       {
-        "City Name": gpci_idg[i]["City Name"], 
-        "Economy": (gpci_idg[i]["Ec1"] + gpci_idg[i]["Ec2"] + gpci_idg[i]["Ec3"] + gpci_idg[i]["Ec4"] + gpci_idg[i]["Ec5"] + gpci_idg[i]["Ec6"]),
-        "R&D":  (gpci_idg[i]["Re1"] + gpci_idg[i]["Re2"] + gpci_idg[i]["Re3"]),
-        "Cultural Interaction": (gpci_idg[i]["Cu1"] + gpci_idg[i]["Cu2"] + gpci_idg[i]["Cu3"] + gpci_idg[i]["Cu4"] + gpci_idg[i]["Cu5"]),
-        "Livability": (gpci_idg[i]["Li1"] + gpci_idg[i]["Li2"] + gpci_idg[i]["Li3"] + gpci_idg[i]["Li4"] + gpci_idg[i]["Li5"]),
-        "Environment": (gpci_idg[i]["En1"] + gpci_idg[i]["En2"] + gpci_idg[i]["En3"]),
-        "Accessibility": (gpci_idg[i]["Ac1"] + gpci_idg[i]["Ac2"] + gpci_idg[i]["Ac3"] + gpci_idg[i]["Ac4"])
-      }
-      ];
-      gpci_f.push(arr[0]);
-    };
- 
+        "City Name": gpci_f[i]["City Name"],
+        "Economy": gpci_f[i]["Economy"],
+        "R&D":  gpci_f[i]["R&D"],
+        "Cultural Interaction": gpci_f[i]["Cultural Interaction"],
+        "Livability": gpci_f[i]["Livability"],
+        "Environment": gpci_f[i]["Environment"],
+        "Accessibility": gpci_f[i]["Accessibility"],
+        "Comprehensive": parseFloat((gpci_f[i]["Economy"] + gpci_f[i]["R&D"] + gpci_f[i]["Cultural Interaction"] + gpci_f[i]["Livability"] + gpci_f[i]["Environment"] + gpci_f[i]["Accessibility"])).toFixed(1) 
+      };
+      
+    gpci_sim.push(arr);
+  };
 
-    // Comprehensive score
-    var gpci_sim = [];
-    for (var i = 0; i <= 47; i++) {
-      var arr = 
-        {
-          "City Name": gpci_f[i]["City Name"],
-          "Economy": gpci_f[i]["Economy"],
-          "R&D":  gpci_f[i]["R&D"],
-          "Cultural Interaction": gpci_f[i]["Cultural Interaction"],
-          "Livability": gpci_f[i]["Livability"],
-          "Environment": gpci_f[i]["Environment"],
-          "Accessibility": gpci_f[i]["Accessibility"],
-          "Comprehensive": parseFloat((gpci_f[i]["Economy"] + gpci_f[i]["R&D"] + gpci_f[i]["Cultural Interaction"] + gpci_f[i]["Livability"] + gpci_f[i]["Environment"] + gpci_f[i]["Accessibility"])).toFixed(1) 
-        };
-        
-      gpci_sim.push(arr);
-    };
+  // Remove the initial rect
+  var elements = document.getElementsByTagName("rect")
+  while (elements.length) {
+    elements.item(0).remove()
+  };
 
-    // Remove the initial rect
-    var elements = document.getElementsByTagName("rect")
-    while (elements.length) {
-      elements.item(0).remove()
-    };
+  // Remove the initial text
+  var texts = document.getElementsByTagName("text")
+  while (texts.length) {
+    texts.item(0).remove()
+  };
 
-    // Remove the initial text
-    var texts = document.getElementsByTagName("text")
-    while (texts.length) {
-      texts.item(0).remove()
-    };
-
-    // Sort by total scores
-    gpci_sim.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
+  // Sort by total scores
+  gpci_sim.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
   
 
   // List of subgroups = header of the csv files = soil condition here
@@ -674,20 +663,18 @@ function draw(){
     .style("font-size",12)
     .call(d3.axisLeft(y).tickSizeOuter(0));
 
-  // カラーパレットを用意する。
+  // カラー配列を用意する。
   const color = d3.scaleOrdinal()
     .domain(subgroups)
     .range(['rgba(189,178,255,1)', 'rgba(160,196,255,1)', 'rgba(255,198,255,1)','rgba(155,246,255,1)', 'rgba(202,255,191,1)', 'rgba(255,214,165,1)'])
 
 
-  // 積み上げ棒グラフ用のデータを用意する。
+  // 積み上げ横棒グラフ用のデータを用意する。
   const stackedData = d3.stack()
     .keys(subgroups)
     (gpci_sim)
 
-  console.log(stackedData)
-
-  // 積み上げ棒グラフを描画する。
+  // 積み上げ横棒グラフを描画する。
   svg.append("g")
     .selectAll("g")
     // Enter in the stack data = loop key per key = group per group
@@ -712,13 +699,13 @@ function draw(){
     .selectAll("text")
     .data(d => d)
     .join("text")
-    .attr("x", d => x(d.data["Comprehensive"]*1.01)) // Center text within the bar
-    .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
+    .attr("x", d => x(d.data["Comprehensive"]*1.01))
+    .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1)
     .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
     .attr("fill", "gray")
     .attr("font-family", "Arial")
     .attr("font-size", "10px")
-    .attr("text-anchor", "top"); // Center-align text
+    .attr("text-anchor", "top");
 
 
   // 対象都市の都市名のカラーを変更する。
