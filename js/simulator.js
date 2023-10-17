@@ -224,8 +224,6 @@ jQuery("input[type=number]").on("change", function(event){
     }
 });
 
-
-
 /* ----------------------------------------------------------------------------
 　イニシャル・グラフ描画
 ---------------------------------------------------------------------------- */
@@ -274,14 +272,14 @@ jQuery("input[type=number]").on("change", function(event){
   // List of groups = species here = value of the first column called group -> I show them on the X axis
   const groups = gpci_initial.map(d => (d["City Name"]))
 
-  // Add X axis
+  // X軸を描画する。
   const x = d3.scaleLinear()
     .domain([0, 1800])
     .range([0, width]);
   svg.append("g")
     .call(d3.axisTop(x));
   
-  // Add Y axis
+  // Y軸を描画する。
   const y = d3.scaleBand()
     .domain(groups)
     .range([0, height])
@@ -290,18 +288,18 @@ jQuery("input[type=number]").on("change", function(event){
     .attr("transform", `translate(0, 0)`)
     .call(d3.axisLeft(y).tickSizeOuter(0));
 
-  // color palette = one color per subgroup
+  // カラーパレットを用意する。
   const color = d3.scaleOrdinal()
     .domain(subgroups)
     .range(['rgba(189,178,255,1)', 'rgba(160,196,255,1)', 'rgba(255,198,255,1)','rgba(155,246,255,1)', 'rgba(202,255,191,1)', 'rgba(255,214,165,1)'])
 
 
-  //stack the data? --> stack per subgroup
+  // 積み上げ棒グラフ用のデータを用意する。
   const stackedData = d3.stack()
     .keys(subgroups)
     (gpci_initial)
 
-  // Show the bars
+  // 積み上げ棒グラフを描画する。
   svg.append("g")
     .selectAll("g")
     // Enter in the stack data = loop key per key = group per group
@@ -317,7 +315,7 @@ jQuery("input[type=number]").on("change", function(event){
     .attr("width", d => x(d[1]) - x(d[0]))
     .attr("height", y.bandwidth())
 
-  // Show the scores
+  // スコアを表示する。
   svg.append("g")
     .selectAll("g")
     .data(stackedData)
@@ -327,9 +325,9 @@ jQuery("input[type=number]").on("change", function(event){
     .join("text")
     .attr("x", d => x(d.data["Comprehensive"]*1.01)) // Center text within the bar
     .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
-    .text(d => d.data["Comprehensive"])
-    .attr("fill", "black")
-    .attr("font-family", "sans-serif")
+    .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
+    .attr("fill", "gray")
+    .attr("font-family", "Helvetica")
     .attr("font-size", "9px")
     .attr("text-anchor", "top"); // Center-align text
 
@@ -366,7 +364,7 @@ function selectCity(){
       if (item === target) {
         return "red";
       } else {
-        return "black";}
+        return "gray";}
     });
  
 }
@@ -641,7 +639,7 @@ function draw(){
   // List of groups = species here = value of the first column called group -> I show them on the X axis
   const groups = gpci_sim.map(d => (d["City Name"]))
 
-  // Add X axis
+  // X軸を描画する。
   const x = d3.scaleLinear()
     .domain([0, 1800])
     .range([0, width]);
@@ -649,7 +647,7 @@ function draw(){
     .call(d3.axisTop(x));
  
 
-  // Add Y axis
+  // Y軸を描画する。
   const y = d3.scaleBand()
     .domain(groups)
     .range([0, height])
@@ -658,20 +656,20 @@ function draw(){
     .attr("transform", `translate(0, 0)`)
     .call(d3.axisLeft(y).tickSizeOuter(0));
 
-  // color palette = one color per subgroup
+  // カラーパレットを用意する。
   const color = d3.scaleOrdinal()
     .domain(subgroups)
     .range(['rgba(189,178,255,1)', 'rgba(160,196,255,1)', 'rgba(255,198,255,1)','rgba(155,246,255,1)', 'rgba(202,255,191,1)', 'rgba(255,214,165,1)'])
 
 
-  //stack the data? --> stack per subgroup
+  // 積み上げ棒グラフ用のデータを用意する。
   const stackedData = d3.stack()
     .keys(subgroups)
     (gpci_sim)
 
   console.log(stackedData)
 
-  // Show the bars
+  // 積み上げ棒グラフを描画する。
   svg.append("g")
     .selectAll("g")
     // Enter in the stack data = loop key per key = group per group
@@ -688,7 +686,7 @@ function draw(){
     .attr("height", y.bandwidth())
 
   
-  // Show the scores
+  // スコアを表示する。
   svg.append("g")
     .selectAll("g")
     .data(stackedData)
@@ -698,22 +696,21 @@ function draw(){
     .join("text")
     .attr("x", d => x(d.data["Comprehensive"]*1.01)) // Center text within the bar
     .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // Center text vertically
-    .text(d => d.data["Comprehensive"])
-    .attr("fill", "black")
-    .attr("font-family", "sans-serif")
+    .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
+    .attr("fill", "gray")
+    .attr("font-family", "Arial")
     .attr("font-size", "9px")
     .attr("text-anchor", "top"); // Center-align text
 
 
-
-  // Coloring the target city
+  // 対象都市の都市名のカラーを変更する。
   svg.selectAll("text")
   .attr("fill", function(d){
     var item = d;
     if (item === target) {
       return "red";
     } else {
-      return "black";}
+      return "gray";}
   });
 
 };
