@@ -63,7 +63,7 @@ if (e.target == modal) {
 /* ----------------------------------------------------------------------------
 　GPCIデータ読み込み
 ---------------------------------------------------------------------------- */
-// AjaxでJSONデータをロードする（同期処理）
+// AjaxでJSONデータをロードする(同期処理(async:false))
 let gpci_all4ini = [];
 $.ajax({
 	url: path,
@@ -84,11 +84,10 @@ $.ajax({
 	}
 });
 
-
 /* ----------------------------------------------------------------------------
 　レイアウト設定
 ---------------------------------------------------------------------------- */
-// 対象都市リスト：文字列リテラルでリスト作成
+// 対象都市のセレクトリスト：文字列リテラルでリスト作成
 for (let item of gpci_all4ini) {
     const option = `<option value=${item["City Name"]}>${item["City Name"]}</option>`
     document.getElementById("city").insertAdjacentHTML("beforeend", option);
@@ -286,7 +285,8 @@ jQuery("input[type=number]").on("change", function(event){
     .padding([0.2])
   svg.append("g")
     .attr("transform", `translate(0, 0)`)
-    .call(d3.axisLeft(y).tickSizeOuter(0));
+    .style("font-size",12)
+    .call(d3.axisLeft(y).tickSizeOuter(0))
 
   // カラーパレットを用意する。
   const color = d3.scaleOrdinal()
@@ -328,7 +328,7 @@ jQuery("input[type=number]").on("change", function(event){
     .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
     .attr("fill", "gray")
     .attr("font-family", "Helvetica")
-    .attr("font-size", "9px")
+    .attr("font-size", "10px")
     .attr("text-anchor", "top"); // Center-align text
 
 /* ----------------------------------------------------------------------------
@@ -654,6 +654,7 @@ function draw(){
     .padding([0.2])
   svg.append("g")
     .attr("transform", `translate(0, 0)`)
+    .style("font-size",12)
     .call(d3.axisLeft(y).tickSizeOuter(0));
 
   // カラーパレットを用意する。
@@ -699,7 +700,7 @@ function draw(){
     .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
     .attr("fill", "gray")
     .attr("font-family", "Arial")
-    .attr("font-size", "9px")
+    .attr("font-size", "10px")
     .attr("text-anchor", "top"); // Center-align text
 
 
