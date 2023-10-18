@@ -437,24 +437,38 @@ function draw(){
     return arr;
   });
   
-
   // =====  分野別スコア計算 ===== // 
   const gpci_f = gpci_idg.map(cityData => {
-    const Ec = ["Ec1", "Ec2", "Ec3", "Ec4", "Ec5", "Ec6"].reduce((sum, key) => sum + cityData[key], 0);
-    const Re = ["Re1", "Re2", "Re3"].reduce((sum, key) => sum + cityData[key], 0);
-    const Cu = ["Cu1", "Cu2", "Cu3", "Cu4", "Cu5"].reduce((sum, key) => sum + cityData[key], 0);
-    const Li = ["Li1", "Li2", "Li3", "Li4", "Li5"].reduce((sum, key) => sum + cityData[key], 0);
-    const En = ["En1", "En2", "En3"].reduce((sum, key) => sum + cityData[key], 0);
-    const Ac = ["Ac1", "Ac2", "Ac3", "Ac4"].reduce((sum, key) => sum + cityData[key], 0);
+    const arr = { "City Name": cityData["City Name"] };
+
+    for (let j in cityData) {
+      if (j === "City Name") {
+        continue;
+      }
+      let key = j.substring(0,2) || j;
+      const values = cityData[j];
   
+      if (!Array.isArray(arr[key])) {
+        arr[key] = [];
+      }
+      arr[key].push(values);
+    }
+
+    for (let key in arr) {
+      if (key === "City Name") {
+        continue;
+      }
+      arr[key] = arr[key].reduce((sum, element) => sum + element, 0);
+    }
+    
     return {
-      "City Name": cityData["City Name"],
-      "Economy": Ec,
-      "R&D": Re,
-      "Cultural Interaction": Cu,
-      "Livability": Li,
-      "Environment": En,
-      "Accessibility": Ac,
+      "City Name": arr["City Name"],
+      "Economy": arr["Ec"],
+      "R&D": arr["Re"],
+      "Cultural Interaction": arr["Cu"],
+      "Livability": arr["Li"],
+      "Environment": arr["En"],
+      "Accessibility": arr["Ac"],
     };
   });
   
