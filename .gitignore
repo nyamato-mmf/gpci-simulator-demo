@@ -1,8 +1,8 @@
 # ディレクトリ配下（のすべてのパスを）除外する
+_excel/
+_python/
 _csv/
 
-layout.html
-layout.js
-
+# 除外するファイル
 test.html
 test.js

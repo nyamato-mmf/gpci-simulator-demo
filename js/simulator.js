@@ -402,7 +402,7 @@ function draw(){
   // 対象都市のデータを抽出する。
   const sim_gpci = gpci_all4sim.filter((item) => item["City Name"] === target);
     
-  // 対象都市のデータを<html>の<table>に表示する。
+  // 対象都市のデータをオブジェクトにする。
   const obj = Object.keys(sim_gpci[0]);
   for (let k = 1; k < obj.length; k++) {
     const key = obj[k];
@@ -410,220 +410,64 @@ function draw(){
     sim_gpci[0][key] = parseFloat(document.getElementById(id).value);
   }
 
-  // 対象都市の指標グループスコア
-  let gpci_idg = [];
-  for (let i = 0; i < gpci_all4sim.length; i++) {
-
-    let arr = {};
-    let tempEc1 = []
-    let tempEc2 = []
-    let tempEc3 = []
-    let tempEc4 = []
-    let tempEc5 = []
-    let tempEc6 = []
-    let tempRe1 = []
-    let tempRe2 = []
-    let tempRe3 = []
-    let tempCu1 = []
-    let tempCu2 = []
-    let tempCu3 = []
-    let tempCu4 = []
-    let tempCu5 = []
-    let tempLi1 = []
-    let tempLi2 = []
-    let tempLi3 = []
-    let tempLi4 = []
-    let tempLi5 = []
-    let tempEn1 = []
-    let tempEn2 = []
-    let tempEn3 = []
-    let tempAc1 = []
-    let tempAc2 = []
-    let tempAc3 = []
-    let tempAc4 = []
-          
-    for (let j in gpci_all4sim[i]) {
-      const key = j.split("_")[1] ? j.split("_")[1] : j; //三項演算子で「_」が存在する場合は「_」で文字列分割して、存在しなければそのまま使用
-      const value = gpci_all4sim[i][j]
-      
-      switch (key) {
-        case "City Name":
-          arr["City Name"] = value;
-          break;
-        case "Ec1":
-          tempEc1.push(value);
-          break;
-        case "Ec2":
-          tempEc2.push(value);
-          break;
-        case "Ec3":
-          tempEc3.push(value);
-          break;
-        case "Ec4":
-          tempEc4.push(value);
-          break;
-        case "Ec5":
-          tempEc5.push(value);
-          break;
-        case "Ec6":
-          tempEc6.push(value);
-          break;
-        case "Re1":
-          tempRe1.push(value);
-          break;
-        case "Re2":
-          tempRe2.push(value);
-          break;
-        case "Re3":
-          tempRe3.push(value);
-          break;
-        case "Cu1":
-          tempCu1.push(value);
-          break;
-        case "Cu2":
-          tempCu2.push(value);
-          break;
-        case "Cu3":
-          tempCu3.push(value);
-          break;
-        case "Cu4":
-          tempCu4.push(value);
-          break;
-        case "Cu5":
-          tempCu5.push(value);
-          break;
-        case "Li1":
-          tempLi1.push(value);
-          break;
-        case "Li2":
-          tempLi2.push(value);
-          break;
-        case "Li3":
-          tempLi3.push(value);
-          break;
-        case "Li4":
-          tempLi4.push(value);
-          break;
-        case "Li5":
-          tempLi5.push(value);
-          break;
-        case "En1":
-          tempEn1.push(value);
-          break;
-        case "En2":
-          tempEn2.push(value);
-          break;
-        case "En3":
-          tempEn3.push(value);
-          break;
-        case "Ac1":
-          tempAc1.push(value);
-          break;
-        case "Ac2":
-          tempAc2.push(value);
-          break;
-        case "Ac3":
-          tempAc3.push(value);
-          break;
-        case "Ac4":
-          tempAc4.push(value);
-          break;
+  // =====  指標グループスコア計算 ===== // 
+  let gpci_idg = gpci_all4sim.map(cityData => {
+    const arr = { "City Name": cityData["City Name"] };
+  
+    for (let j in cityData) {
+      if (j === "City Name") {
+        continue;
       }
-
+      const key = j.split("_")[1] || j;
+      const values = cityData[j];
+  
+      if (!Array.isArray(arr[key])) {
+        arr[key] = [];
       }
-
-      let totalEc1 = tempEc1.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEc2 = tempEc2.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEc3 = tempEc3.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEc4 = tempEc4.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEc5 = tempEc5.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEc6 = tempEc6.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalRe1 = tempRe1.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalRe2 = tempRe2.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalRe3 = tempRe3.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalCu1 = tempCu1.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalCu2 = tempCu2.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalCu3 = tempCu3.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalCu4 = tempCu4.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalCu5 = tempCu5.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalLi1 = tempLi1.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalLi2 = tempLi2.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalLi3 = tempLi3.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalLi4 = tempLi4.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalLi5 = tempLi5.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEn1 = tempEn1.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEn2 = tempEn2.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalEn3 = tempEn3.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalAc1 = tempAc1.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalAc2 = tempAc2.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalAc3 = tempAc3.reduce(function(sum, element){ return sum + element; }, 0);
-      let totalAc4 = tempAc4.reduce(function(sum, element){ return sum + element; }, 0);
-
-      arr["Ec1"] = totalEc1/tempEc1.length
-      arr["Ec2"] = totalEc2/tempEc2.length
-      arr["Ec3"] = totalEc3/tempEc3.length
-      arr["Ec4"] = totalEc4/tempEc4.length
-      arr["Ec5"] = totalEc5/tempEc5.length
-      arr["Ec6"] = totalEc6/tempEc6.length
-      arr["Re1"] = totalRe1/tempRe1.length
-      arr["Re2"] = totalRe2/tempRe2.length
-      arr["Re3"] = totalRe3/tempRe3.length
-      arr["Cu1"] = totalCu1/tempCu1.length
-      arr["Cu2"] = totalCu2/tempCu2.length
-      arr["Cu3"] = totalCu3/tempCu3.length
-      arr["Cu4"] = totalCu4/tempCu4.length
-      arr["Cu5"] = totalCu5/tempCu5.length
-      arr["Li1"] = totalLi1/tempLi1.length
-      arr["Li2"] = totalLi2/tempLi2.length
-      arr["Li3"] = totalLi3/tempLi3.length
-      arr["Li4"] = totalLi4/tempLi4.length
-      arr["Li5"] = totalLi5/tempLi5.length
-      arr["En1"] = totalEn1/tempEn1.length
-      arr["En2"] = totalEn2/tempEn2.length
-      arr["En3"] = totalEn3/tempEn3.length
-      arr["Ac1"] = totalAc1/tempAc1.length
-      arr["Ac2"] = totalAc2/tempAc2.length
-      arr["Ac3"] = totalAc3/tempAc3.length
-      arr["Ac4"] = totalAc4/tempAc4.length
-
-     gpci_idg.push(arr);
-  };
-    
-  // 対象都市の分野別スコア
-  var gpci_f = [];
-  for (var i = 0; i <= 47; i++) {
-    var arr = [
-    {
-      "City Name": gpci_idg[i]["City Name"], 
-      "Economy": (gpci_idg[i]["Ec1"] + gpci_idg[i]["Ec2"] + gpci_idg[i]["Ec3"] + gpci_idg[i]["Ec4"] + gpci_idg[i]["Ec5"] + gpci_idg[i]["Ec6"]),
-      "R&D":  (gpci_idg[i]["Re1"] + gpci_idg[i]["Re2"] + gpci_idg[i]["Re3"]),
-      "Cultural Interaction": (gpci_idg[i]["Cu1"] + gpci_idg[i]["Cu2"] + gpci_idg[i]["Cu3"] + gpci_idg[i]["Cu4"] + gpci_idg[i]["Cu5"]),
-      "Livability": (gpci_idg[i]["Li1"] + gpci_idg[i]["Li2"] + gpci_idg[i]["Li3"] + gpci_idg[i]["Li4"] + gpci_idg[i]["Li5"]),
-      "Environment": (gpci_idg[i]["En1"] + gpci_idg[i]["En2"] + gpci_idg[i]["En3"]),
-      "Accessibility": (gpci_idg[i]["Ac1"] + gpci_idg[i]["Ac2"] + gpci_idg[i]["Ac3"] + gpci_idg[i]["Ac4"])
+      arr[key].push(values);
     }
-    ];
-    gpci_f.push(arr[0]);
-  };
+  
+    for (let key in arr) {
+      if (key === "City Name") {
+        continue;
+      }
+      arr[key] = arr[key].reduce((sum, element) => sum + element, 0) / arr[key].length;
+    }
+    
+    return arr;
+  });
+  
 
-  // 対象都市の総合スコア
-  var gpci_sim = [];
-  for (var i = 0; i <= 47; i++) {
-    var arr = 
-      {
-        "City Name": gpci_f[i]["City Name"],
-        "Economy": gpci_f[i]["Economy"],
-        "R&D":  gpci_f[i]["R&D"],
-        "Cultural Interaction": gpci_f[i]["Cultural Interaction"],
-        "Livability": gpci_f[i]["Livability"],
-        "Environment": gpci_f[i]["Environment"],
-        "Accessibility": gpci_f[i]["Accessibility"],
-        "Comprehensive": parseFloat((gpci_f[i]["Economy"] + gpci_f[i]["R&D"] + gpci_f[i]["Cultural Interaction"] + gpci_f[i]["Livability"] + gpci_f[i]["Environment"] + gpci_f[i]["Accessibility"])).toFixed(1) 
-      };
-      
-    gpci_sim.push(arr);
-  };
+  // =====  分野別スコア計算 ===== // 
+  const gpci_f = gpci_idg.map(cityData => {
+    const Ec = ["Ec1", "Ec2", "Ec3", "Ec4", "Ec5", "Ec6"].reduce((sum, key) => sum + cityData[key], 0);
+    const Re = ["Re1", "Re2", "Re3"].reduce((sum, key) => sum + cityData[key], 0);
+    const Cu = ["Cu1", "Cu2", "Cu3", "Cu4", "Cu5"].reduce((sum, key) => sum + cityData[key], 0);
+    const Li = ["Li1", "Li2", "Li3", "Li4", "Li5"].reduce((sum, key) => sum + cityData[key], 0);
+    const En = ["En1", "En2", "En3"].reduce((sum, key) => sum + cityData[key], 0);
+    const Ac = ["Ac1", "Ac2", "Ac3", "Ac4"].reduce((sum, key) => sum + cityData[key], 0);
+  
+    return {
+      "City Name": cityData["City Name"],
+      "Economy": Ec,
+      "R&D": Re,
+      "Cultural Interaction": Cu,
+      "Livability": Li,
+      "Environment": En,
+      "Accessibility": Ac,
+    };
+  });
+  
+  // =====  総合スコア計算 ===== // 
+  const gpci_sim = gpci_f.map(cityData => {
+    const comprehensive = (cityData["Economy"] + cityData["R&D"] + cityData["Cultural Interaction"] + cityData["Livability"] + cityData["Environment"] + cityData["Accessibility"]).toFixed(1);
+    return { ...cityData, "Comprehensive": parseFloat(comprehensive) };
+  });
 
+
+/* ----------------------------------------------------------------------------
+　シミュレーション・グラフ描画
+---------------------------------------------------------------------------- */  
   // Remove the initial rect
   var elements = document.getElementsByTagName("rect")
   while (elements.length) {
