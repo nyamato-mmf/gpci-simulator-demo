@@ -16,6 +16,7 @@ switch (lang) {
     document.getElementById("desc4").textContent = "2. Change scores between 0 and 100.";
     document.getElementById("desc5").textContent = "3. Press the 'Simulate' button.";
     document.getElementById("desc6").textContent = "4. Press the 'Reset' button to restart.";
+    document.getElementById("desc7").textContent = "-- Select a city --";
     document.getElementById("show").value = "Show scores";
     document.getElementById("sim").value = "Simulate";
     document.getElementById("reset").value = "Reset";
@@ -29,6 +30,7 @@ switch (lang) {
     document.getElementById("desc4").textContent = "2. 0点から100点の間でスコアを変更します。";
     document.getElementById("desc5").textContent = "3.「シミュレーション」ボタンを押します。";
     document.getElementById("desc6").textContent = "4.「リセット」ボタンを押すと、初期値に戻ります。";
+    document.getElementById("desc7").textContent = "-- 都市を選択 --";
     document.getElementById("show").value = "スコア表示";
     document.getElementById("sim").value = "シミュレーション";
     document.getElementById("reset").value = "リセット";
@@ -91,16 +93,16 @@ $.ajax({
 /* ----------------------------------------------------------------------------
 　レイアウト設定
 ---------------------------------------------------------------------------- */
-// 対象都市のセレクトリスト：文字列リテラルでリスト作成
+// 対象都市のセレクトリスト：テンプレート文字列でリスト作成
 for (let item of gpci_all4ini) {
     const option = `<option value=${item["City Name"]}>${item["City Name"]}</option>`
     document.getElementById("city").insertAdjacentHTML("beforeend", option);
 }; 
 
-// 指標リスト：スコアデータから指標#1-70の部分を抽出する。
+// 指標リスト：スコアデータから指標の部分を抽出する。
 var indicators = Object.keys(gpci_all4ini[0]).slice(1,71)
 
-// スコアテーブル：文字列リテラルで作成（条件分岐で経済指標に「style="display: table-row;"」を付与）
+// スコアテーブル：テンプレート文字列で作成（条件分岐で経済指標に「style="display: table-row;"」を付与）
 for (let item of indicators) {
     if (item.split("_")[2] === "Ec"){
         const tr = `<tr class="indicator heading_${item.split("_")[2]}" style="display: table-row;">
@@ -218,7 +220,7 @@ const legends = [
     {"Ac_legend":["Accessibility","交通・アクセス"]}
 ]
 
-// 文字列リテラルで凡例を作成（条件分岐で日英切替）
+// テンプレート文字列で凡例を作成（条件分岐で日英切替）
 for (j of legends) {
   switch (lang) {
     case "en":
@@ -254,7 +256,7 @@ jQuery("input[type=number]").on("change", function(event){
 /* ----------------------------------------------------------------------------
 　イニシャル・グラフ描画
 ---------------------------------------------------------------------------- */
-// スコアデータから指標#1-70の部分を抽出する。
+// スコアデータから総合スコアの部分を抽出する。
 let gpci_initial = gpci_all4ini.map(item => ({
   "City Name": item["City Name"],
   "Economy": item["Economy"],
@@ -497,7 +499,6 @@ function draw(){
   // Sort by total scores
   gpci_sim.sort((a,b) => b["Comprehensive"] - a["Comprehensive"])
   
-
   // List of subgroups = header of the csv files = soil condition here
   const subgroups = ["Economy","R&D","Cultural Interaction","Livability","Environment","Accessibility"]
 
