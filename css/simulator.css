@@ -137,15 +137,15 @@
     margin-bottom: 10px;
     font-size: 14px;
     color: #ffffff;
-    background-color: #00b4d8;
+    background-color: #495057;
     border-width: 0px;
     border-radius: 10px;
 }
 .btn:hover {
     background-color: #ffffff;
-    border-color: #00b4d8;
+    border-color: #495057;
     border-width: 1px;
-    color: #00b4d8;
+    color: #495057;
 }
 /* スコアエリア */
 #score {
@@ -184,8 +184,8 @@
 }
 
 thead {
-    color: #000000;
-    background-color:#adb5bd;
+    color: #ffffff;
+    background-color:#495057;
 }
 
 .Ec {
@@ -211,7 +211,7 @@ td {
     width: 100px;
     text-align: center;
     text-indent: 0px;
-    background-color:#00b4d8;
+    background-color:#495057;
 }
 
 .th_Ec, .th_Re, .th_Cu, .th_Li, .th_En, .th_Ac {
