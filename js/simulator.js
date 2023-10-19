@@ -349,7 +349,7 @@ svg.append("g")
   .join("text")
   .attr("x", d => x(d.data["Comprehensive"]*1.01)) // 横棒グラフの右側に合計スコアラベル
   .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1) // 上下位置の調整
-  .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
+  .text(d => parseFloat(d.data["Comprehensive"]).toFixed(1))
   .attr("fill", "gray")
   .attr("font-family", "Helvetica")
   .attr("font-size", "10px")
@@ -476,7 +476,7 @@ function draw(){
   
   // =====  総合スコア計算 ===== // 
   const gpci_sim = gpci_f.map(cityData => {
-    const comprehensive = (cityData["Economy"] + cityData["R&D"] + cityData["Cultural Interaction"] + cityData["Livability"] + cityData["Environment"] + cityData["Accessibility"]).toFixed(1);
+    const comprehensive = (cityData["Economy"] + cityData["R&D"] + cityData["Cultural Interaction"] + cityData["Livability"] + cityData["Environment"] + cityData["Accessibility"]);
     return { ...cityData, "Comprehensive": parseFloat(comprehensive) };
   });
 
@@ -560,7 +560,7 @@ function draw(){
     .join("text")
     .attr("x", d => x(d.data["Comprehensive"]*1.01))
     .attr("y", d => y(d.data["City Name"]) + y.bandwidth()-1)
-    .text(d => parseFloat(d.data["Comprehensive"]).toFixed(0))
+    .text(d => parseFloat(d.data["Comprehensive"]).toFixed(1))
     .attr("fill", "gray")
     .attr("font-family", "Arial")
     .attr("font-size", "10px")
