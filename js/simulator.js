@@ -1,7 +1,7 @@
 
-// 言語 ("en"/"jp") および 年次設定
-const lang = "en"
+// 年次設定（言語 ("en"/"ja") は<html>のlang属性で設定 ）
 const year = "2023"
+let lang = document.documentElement.lang === "ja" ? "jp" : document.documentElement.lang;
 const path = "./json/gpci" + year +"_" + lang + ".json"
 
 /* ----------------------------------------------------------------------------
