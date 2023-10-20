@@ -153,15 +153,6 @@
     width: 440px;
     height: 800px;
 }
-#output-area {
-    background-color: white;
-    width: 500px;
-    height: 900px;
-   /* flex layout */
-   display: flex;
-   flex-direction: column;            
-}
-
 /* スコアテーブル */
 .table {
     border-collapse: collapse;
@@ -276,9 +267,16 @@ td {
 /* ----------------------------------------------------------------------------
 　アウトプットエリア
 ---------------------------------------------------------------------------- */
+#output-area {
+    background-color: white;
+    width: 500px;
+    height: 900px;
+   /* flex layout */
+   display: flex;
+   flex-direction: column;            
+}
 
 .axis { font: 20px sans-serif; }
-
 
 /* 凡例 */
 #legend {
