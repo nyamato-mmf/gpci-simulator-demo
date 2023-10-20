@@ -1,0 +1,359 @@
+/* ----------------------------------------------------------------------------
+　タイトル
+---------------------------------------------------------------------------- */
+#title-simulator {
+    width: 940px;
+    margin: auto;
+}
+
+#simulator {
+    background-color: white;
+    width: 940px;
+    height: 900px;
+    margin: auto;
+    /* flex layout */
+    display: flex;
+    flex-direction: row;
+}
+
+/* ----------------------------------------------------------------------------
+　インプットエリア
+---------------------------------------------------------------------------- */
+#input-area {
+    background-color: white;
+    width: 440px;
+    height: 900px;
+}
+
+#controller {
+    background-color: white;
+    width: 440px;
+    height: 100px;
+}
+
+.controller-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* flex layout */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 0px;
+    row-gap: 5px;
+}
+
+.controller-item1 {
+    margin-top: 10px;
+    padding: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.controller-item2,
+.controller-item3,
+.controller-item4 {
+    margin: auto;
+    padding: 0;
+}
+
+/* セレクトリスト */
+.select {
+    height: 30px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+/* ボタン */
+.btn {
+    height: 30px;
+    width: 140px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #495057;
+    border-width: 0px;
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: #ffffff;
+    border-color: #495057;
+    border-width: 1px;
+    color: #495057;
+}
+
+/* スコアエリア */
+#score {
+    background-color: white;
+    width: 440px;
+    height: 800px;
+}
+
+/* スコアテーブル */
+.table {
+    border-collapse: collapse;
+    font-weight: lighter;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+}
+
+.function {
+    text-align: left;
+    text-indent: 5px;
+    cursor: pointer;
+}
+
+.indicator {
+    text-align: left;
+    text-indent: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+thead {
+    color: #ffffff;
+    background-color: #495057;
+}
+
+.Ec {
+    background-color: rgba(145, 112, 153, .8);
+}
+
+.Re {
+    background-color: rgba(115, 140, 172, .8);
+}
+
+.Cu {
+    background-color: rgba(222, 129, 154, .8);
+}
+
+.Li {
+    background-color: rgba(113, 194, 222, .8);
+}
+
+.En {
+    background-color: rgba(156, 184, 102, .8);
+}
+
+.Ac {
+    background-color: rgba(238, 170, 61, .8);
+}
+
+td {
+    width: 100px;
+    text-align: center;
+    text-indent: 0px;
+    background-color: #495057;
+}
+
+.th_Ec,
+.th_Re,
+.th_Cu,
+.th_Li,
+.th_En,
+.th_Ac {
+    text-align: left;
+    font-size: 12px;
+}
+
+.th_Ec {
+    background-color: rgba(145, 112, 153, 0.5);
+}
+
+.th_Re {
+    background-color: rgba(115, 140, 172, 0.5);
+}
+
+.th_Cu {
+    background-color: rgba(222, 129, 154, 0.5);
+}
+
+.th_Li {
+    background-color: rgba(113, 194, 222, 0.5);
+}
+
+.th_En {
+    background-color: rgba(156, 184, 102, 0.5);
+}
+
+.th_Ac {
+    background-color: rgba(238, 170, 61, 0.5);
+}
+
+.td_Ec,
+.td_Re,
+.td_Cu,
+.td_Li,
+.td_En,
+.td_Ac {
+    font-size: 12px;
+}
+
+.td_Ec {
+    background-color: rgba(145, 112, 153, .3);
+}
+
+.td_Re {
+    background-color: rgba(115, 140, 172, .3);
+}
+
+.td_Cu {
+    background-color: rgba(222, 129, 154, .3);
+}
+
+.td_Li {
+    background-color: rgba(113, 194, 222, .3);
+}
+
+.td_En {
+    background-color: rgba(156, 184, 102, .3);
+}
+
+.td_Ac {
+    background-color: rgba(238, 170, 61, .3);
+}
+
+.inputTable {
+    border: none;
+    margin: auto;
+    width: 100px;
+    text-align: center;
+    background-color: transparent;
+}
+
+
+/* ここから */
+
+/* 数値変更セルのハイライト */
+.active {
+    background-color: rgba(0, 0, 0, .3);
+    color: #ffffff;
+}
+
+/* ここまで */
+
+
+/* ----------------------------------------------------------------------------
+　アウトプットエリア
+---------------------------------------------------------------------------- */
+
+#output-area {
+    background-color: white;
+    width: 500px;
+    height: 900px;
+    /* flex layout */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 凡例 */
+#legend {
+    background-color: white;
+    width: 500px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.legend-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+    /* flex layout */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* 凡例のリストの各要素に前要素として■を付ける */
+.legend-list li:before {
+    content: "";
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    margin-right: 5px;
+}
+
+/* 凡例リストの各要素の前要素のデザインを設定 */
+.Ec_legend:before {
+    background: rgba(145, 112, 153, .8);
+    border-radius: 10;
+}
+
+.Re_legend:before {
+    background: rgba(115, 140, 172, .8);
+    border-radius: 10;
+}
+
+.Cu_legend:before {
+    background: rgba(222, 129, 154, .8);
+    border-radius: 10;
+}
+
+.Li_legend:before {
+    background: rgba(113, 194, 222, .8);
+    border-radius: 10;
+}
+
+.En_legend:before {
+    background: rgba(156, 184, 102, .8);
+    border-radius: 10;
+}
+
+.Ac_legend:before {
+    background: rgba(238, 170, 61, .8);
+    border-radius: 10;
+}
+
+/* 積み上げ横棒グラフ */
+#chart {
+    background-color: white;
+    width: 500px;
+    height: 800px;
+}
+
+/* ----------------------------------------------------------------------------
+　レスポンシブデザイン
+---------------------------------------------------------------------------- */
+@media (max-width:800px) {
+    #title-simulator {
+        width: 100%;
+    }
+
+    #simulator {
+        width: 100%;
+        height: 1200px;
+        margin: auto;
+        /* flex layout */
+        display: flex;
+        flex-direction: column;
+    }
+
+    #input-area {
+        width: 100%;
+        height: 50%;
+    }
+
+    #controller {
+        width: 100%;
+        height: 15%;
+    }
+
+    #score {
+        width: 100%;
+        height: 85%;
+    }
+
+    #output-area {
+        width: 100%;
+        height: 50%;
+    }
+
+    #legend {
+        width: 100%;
+        height: 15%;
+    }
+}

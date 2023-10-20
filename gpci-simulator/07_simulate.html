@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="./img/favicon.ico">
+    <!-- CSS -->
+    <link href="./css/07_simulate.css" rel="stylesheet">
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v6.js"></script>
+</head>
+
+<body>
+    <div id="title-simulator"></div>
+    <div id="simulator">
+        <!-- ===== インプットエリア ===== -->
+        <div id="input-area">
+            <div id="controller">
+
+                <ul class="controller-list">
+                    <!-- セレクトリスト (都市選択) -->
+                    <li class="controller-item1">
+                        <form>
+                            <select id="city" class="select">
+                                <option id="desc7"></option>
+                            </select>
+                        </form>
+                    </li>
+
+                    <!-- ボタン (Show / Draw / Reset) -->
+                    <li class="controller-item2">
+                        <input type="button" value="" id="show" class="btn" onclick="selectCity()" />
+                    </li>
+                    <li class="controller-item3">
+                        <input type="button" value="" id="sim" class="btn" onclick="draw()" />
+                    </li>
+                    <li class="controller-item4">
+                        <input type="button" value="" id="reset" class="btn" onClick="document.location.reload(true)">
+                    </li>
+                </ul>
+
+            </div>
+            <div id="score">
+                <!-- スコアテーブル -->
+                <table class="table" border="1">
+                    <thead>
+                        <tr>
+                            <th id="table-header1"></th>
+                            <th id="table-header2"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="indicators"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== アウトプットエリア ===== -->
+        <div id="output-area">
+            <!-- 凡例 -->
+            <div id="legend">
+                <ul id="legend-list" class="legend-list"></ul>
+            </div>
+            <!-- D3.jsグラフ -->
+            <div id="my_dataviz"></div>
+        </div>
+    </div>
+
+    <!-- jsファイル読み込み -->
+    <script src="./js/07_simulate.js"></script>
+
+</body>
+
+</html>

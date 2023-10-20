@@ -1,0 +1,106 @@
+/* ----------------------------------------------------------------------------
+　タイトル
+---------------------------------------------------------------------------- */
+#title-simulator {
+    width: 940px;
+    margin: auto;
+}
+
+#simulator {
+    background-color: red;
+    width: 940px;
+    height: 900px;
+    margin: auto;
+    /* flex layout */
+    display: flex;
+    flex-direction: row;
+}
+
+/* ----------------------------------------------------------------------------
+　インプットエリア
+---------------------------------------------------------------------------- */
+#input-area {
+    background-color: blue;
+    width: 440px;
+    height: 900px;
+}
+
+#controller {
+    background-color: green;
+    width: 440px;
+    height: 100px;
+}
+
+/* スコアエリア */
+#score {
+    background-color: yellow;
+    width: 440px;
+    height: 800px;
+}
+
+
+/* ----------------------------------------------------------------------------
+　アウトプットエリア
+---------------------------------------------------------------------------- */
+
+#output-area {
+    background-color: purple;
+    width: 500px;
+    height: 900px;
+    /* flex layout */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 凡例 */
+#legend {
+    background-color: pink;
+    width: 500px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ----------------------------------------------------------------------------
+　レスポンシブデザイン
+---------------------------------------------------------------------------- */
+@media (max-width:800px) {
+    #title-simulator {
+        width: 100%;
+    }
+
+    #simulator {
+        width: 100%;
+        height: 1200px;
+        margin: auto;
+        /* flex layout */
+        display: flex;
+        flex-direction: column;
+    }
+
+    #input-area {
+        width: 100%;
+        height: 50%;
+    }
+
+    #controller {
+        width: 100%;
+        height: 15%;
+    }
+
+    #score {
+        width: 100%;
+        height: 85%;
+    }
+
+    #output-area {
+        width: 100%;
+        height: 50%;
+    }
+
+    #legend {
+        width: 100%;
+        height: 15%;
+    }
+}
