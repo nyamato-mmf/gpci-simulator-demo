@@ -527,7 +527,6 @@ function draw(){
     .domain(subgroups)
     .range(['rgba(145,112,153,.8)', 'rgba(115,140,172,.8)', 'rgba(222,129,154,.8)','rgba(113,194,222,.8)', 'rgba(156,184,102,.8)', 'rgba(238,170,61,.8)'])
 
-
   // 積み上げ横棒グラフ用のデータを用意する。
   const stackedData = d3.stack()
     .keys(subgroups)
@@ -549,7 +548,6 @@ function draw(){
     .attr("width", d => x(d[1]) - x(d[0]))
     .attr("height", y.bandwidth())
 
-  
   // スコアを表示する。
   svg.append("g")
     .selectAll("g")
@@ -565,7 +563,6 @@ function draw(){
     .attr("font-family", "Arial")
     .attr("font-size", "10px")
     .attr("text-anchor", "top");
-
 
   // 対象都市の都市名のカラーを変更する。
   svg.selectAll("text")
