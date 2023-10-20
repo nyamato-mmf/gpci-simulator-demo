@@ -1,8 +1,20 @@
+.idea/
+*.iml
+*.iws
+*.eml
+out/
+.DS_Store
+.svn
+log/*.log
+tmp/**
+node_modules/
+.sass-cache
+
+# GPCI-simulator用の.gitignore
 # ディレクトリ配下（のすべてのパスを）除外する
 _excel/
 _python/
 _csv/
-
 # 除外するファイル
 test.html
 test.js

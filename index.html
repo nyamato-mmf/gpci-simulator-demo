@@ -1,101 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPCI Simulator</title>
-    <link rel="icon" href="./img/favicon.ico">
-    <!-- CSS -->
-    <link href="./css/simulator.css" rel="stylesheet">
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <!-- Load d3.js -->
-    <script src="https://d3js.org/d3.v6.js"></script>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
- </head>
-<body>
-    <div id="title-simulator">
-        <div>
-            <h1>GPCI Simulator</h1>
-            <p id="desc1"></p>
-        </div>
+		<title>reveal.js</title>
 
-        <!-- 使用方法（ヘルプアイコン） -->
-        <div class="imgbox">
-            <img src="./img/help.svg" id="modalOpen" class="button">
-        </div>
-        
-        <!-- 使用方法モーダル -->
-        <div id="easyModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="desc2"></h4><span class="modalClose">×</span>
-            </div>
-            <div class="modal-body">
-                <p id="desc3"></p>
-                <p id="desc4"></p>
-                <p id="desc5"></p>
-                <p id="desc6"></p>
-            </div>
-        </div>
-        </div>
-    </div>
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
 
-    <div id="simulator">
-        
-        <!-- ===== インプットエリア ===== -->
-        <div id="input-area">
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>Slide 1</section>
+				<section>Slide 2</section>
+			</div>
+		</div>
 
-            <div id="controller">
-                <ul class="controller-list">
-                    <!-- セレクトリスト (都市選択) -->
-                    <li class="controller-item1">
-                        <form>
-                            <select id="city" class="select">
-                                <option id="desc7"></option>
-                            </select>
-                        </form>
-                    </li>
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
 
-                    <!-- ボタン (Show / Draw / Reset) -->
-                    <li class="controller-item2">
-                        <input type="button" value="" id="show" class="btn" onclick="selectCity()"/>
-                    </li>                
-                    <li class="controller-item3">
-                        <input type="button" value="" id="sim" class="btn" onclick="draw()"/>
-                    </li>
-                    <li class="controller-item4">
-                        <input type="button" value="" id="reset" class="btn" onClick="document.location.reload(true)">
-                    </li>
-                </ul>
-            </div>
-
-            <div id="score">
-                <!-- スコアテーブル -->
-                <table class="table" border="1">
-                    <thead>
-                        <tr><th id="table-header1"></th><th id="table-header2"></th></tr>
-                    </thead>
-                    <tbody id="indicators"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- ===== アウトプットエリア ===== -->
-        <div id="output-area">
-            <!-- 凡例 -->
-            <div id="legend">
-                <ul id="legend-list" class="legend-list"></ul>
-            </div>
-
-            <!-- D3.jsグラフ -->
-            <div id="my_dataviz"></div>
-        </div>
-        
-    </div>
-
-    <!-- jsファイル読み込み -->
-    <script src="./js/simulator.js"></script>
-    
-</body>
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
 </html>
