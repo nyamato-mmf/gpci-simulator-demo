@@ -1,71 +1,798 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>gpci-simulator-demo</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+	<title>gpci-simulator-demo</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-		<!-- Fullscreen plugin -->
-		<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/fullscreen/plugin.js"></script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<!-- slide -->
-				<section data-transition="convex">GPCI-Simulator Lecture</section>
-				
-				<!-- slide -->
-				<section data-transition="fade">
-					<h2>Table of Contents</h2>
-					<ul>
-						<li><a href="#/2">01 Layout</a></li>
-						<li><a href="#/3">02 Form</a></li>
-						<li><a href="#/3">03 Table</a></li>
-						<li><a href="#/4">04 Legend</a></li>
-						<li><a href="#/5">05 Graph</a></li>
-						<li><a href="#/6">06 Target</a></li>
-						<li><a href="#/7">07 Simulate</a></li>
-						<li><a href="#/8">08 Modal</a></li>
-						<li><a href="#/9">09 Responsive</a></li>
-					</ul>
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<!-- Fullscreen plugin -->
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/fullscreen/plugin.js"></script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- slide: Cover -->
+			<section data-transition="">
+				<h2>GPCI-Simulator<br>Lecture</h2>
+			</section>
+
+			<!-- slide: Table of contents -->
+			<section data-transition="">
+				<h2>Table of Contents</h2>
+				<ul>
+					<li><a href="#/2">GPCI-Simulator</a></li>
+					<li><a href="#/3">01 Layout</a></li>
+					<li><a href="#/4">02 Form</a></li>
+					<li><a href="#/3">03 Table</a></li>
+					<li><a href="#/4">04 Legend</a></li>
+					<li><a href="#/5">05 Graph</a></li>
+					<li><a href="#/6">06 Target</a></li>
+					<li><a href="#/7">07 Simulate</a></li>
+					<li><a href="#/8">08 Modal</a></li>
+					<li><a href="#/9">09 Responsive</a></li>
+				</ul>
+			</section>
+
+			<!-- slide: GPCI-Simulator -->
+			<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
+				<iframe class="stretch" data-src="./gpci-simulator/index.html" data-preload frameborder="0"
+					allowfullscreen></iframe>
+			</section>
+
+			<!-- V-slide: 01 Layout -->
+			<section>
+				<section data-transition="convex">01 Layout</section>
+
+				<!-- slide: Output -->
+				<section data-fullscreen="true">
+					<h3>01 Layout: OUTPUT</h3>
+					<iframe class="stretch" data-src="./gpci-simulator/01_layout.html" data-preload frameborder="0"
+						allowfullscreen></iframe>
 				</section>
 
-				<!-- slide -->
+				<!-- slide: HTML -->
 				<section>
-
-					<section data-transition="convex">01 Layout</section>
-					
-					<!-- slide -->
-					<section data-transition="fade" data-fullscreen="true">
-						<iframe class="stretch" data-src="./gpci-simulator/01_layout.html" data-preload frameborder="0" allowfullscreen></iframe>
-					</section>
-					
+					<h3>HTML</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="">
+						<script type="text/template">
+								<div id="title-simulator"></div>
+								<div id="simulator">
+									<!-- ===== インプットエリア ===== -->
+									<div id="input-area">
+										<div id="controller"></div>
+										<div id="score"></div>
+									</div>
+							
+									<!-- ===== アウトプットエリア ===== -->
+									<div id="output-area">
+										<!-- 凡例 -->
+										<div id="legend"></div>
+										<!-- D3.jsグラフ -->
+										<div id="my_dataviz"></div>
+									</div>
+								</div>
+						</script>
+					</code></pre>
 				</section>
-			</div>
+
+				<!-- slide: CSS -->
+				<section>
+					<h3>CSS</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="">
+						<script type="text/template">
+							/* ----------------------------------------------------------------------------
+							　タイトル
+							---------------------------------------------------------------------------- */
+							#title-simulator {
+								width: 940px;
+								margin: auto;
+							}
+							
+							#simulator {
+								background-color: red;
+								width: 940px;
+								height: 900px;
+								margin: auto;
+								/* flex layout */
+								display: flex;
+								flex-direction: row;
+							}
+							
+							/* ----------------------------------------------------------------------------
+							　インプットエリア
+							---------------------------------------------------------------------------- */
+							#input-area {
+								background-color: blue;
+								width: 440px;
+								height: 900px;
+							}
+							
+							#controller {
+								background-color: green;
+								width: 440px;
+								height: 100px;
+							}
+							
+							/* スコアエリア */
+							#score {
+								background-color: yellow;
+								width: 440px;
+								height: 800px;
+							}
+							
+							
+							/* ----------------------------------------------------------------------------
+							　アウトプットエリア
+							---------------------------------------------------------------------------- */
+							
+							#output-area {
+								background-color: purple;
+								width: 500px;
+								height: 900px;
+								/* flex layout */
+								display: flex;
+								flex-direction: column;
+							}
+							
+							/* 凡例 */
+							#legend {
+								background-color: pink;
+								width: 500px;
+								height: 100px;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+							}
+							
+							/* ----------------------------------------------------------------------------
+							　レスポンシブデザイン
+							---------------------------------------------------------------------------- */
+							@media (max-width:800px) {
+								#title-simulator {
+									width: 100%;
+								}
+							
+								#simulator {
+									width: 100%;
+									height: 1200px;
+									margin: auto;
+									/* flex layout */
+									display: flex;
+									flex-direction: column;
+								}
+							
+								#input-area {
+									width: 100%;
+									height: 50%;
+								}
+							
+								#controller {
+									width: 100%;
+									height: 15%;
+								}
+							
+								#score {
+									width: 100%;
+									height: 85%;
+								}
+							
+								#output-area {
+									width: 100%;
+									height: 50%;
+								}
+							
+								#legend {
+									width: 100%;
+									height: 15%;
+								}
+							}
+						</script>
+					</code></pre>
+				</section>
+
+			</section>
+
+			<!-- V-slide: 02 Form -->
+			<section>
+				<section data-transition="convex">02 Form</section>
+
+				<!-- slide: Output -->
+				<section data-fullscreen="true">
+					<h3>02 Form: OUTPUT</h3>
+					<iframe class="stretch" data-src="./gpci-simulator/02_form.html" data-preload frameborder="0"
+						allowfullscreen></iframe>
+				</section>
+
+				<!-- slide: HTML -->
+				<section>
+					<h3>HTML</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="5-7">
+							&lt;!-- ここから　--&gt;
+							<-- Jquery --&gt;
+							&lt;script src="https://code.jquery.com/jquery-3.6.0.min.js"
+								integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"&gt;&lt;/script&gt;
+							&lt;!-- ここまで　--&gt;
+					</code></pre>
+
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="6-26">					
+						<script type="text/template">
+							<!-- ===== インプットエリア ===== -->
+							<div id="input-area">
+								<div id="controller">
+
+									<!-- ここから　-->
+									<ul class="controller-list">
+										<!-- セレクトリスト (都市選択) -->
+										<li class="controller-item1">
+											<form>
+												<select id="city" class="select">
+													<option id="desc7"></option>
+												</select>
+											</form>
+										</li>
+
+										<!-- ボタン (Show / Draw / Reset) -->
+										<li class="controller-item2">
+											<input type="button" value="" id="show" class="btn" onclick="selectCity()" />
+										</li>
+										<li class="controller-item3">
+											<input type="button" value="" id="sim" class="btn" onclick="draw()" />
+										</li>
+										<li class="controller-item4">
+											<input type="button" value="" id="reset" class="btn" onClick="document.location.reload(true)">
+										</li>
+									</ul>
+									<!-- ここまで　-->
+
+								</div>
+								<div id="score"></div>
+						</script>
+					</code></pre>
+				</section>
+
+				<!-- slide: CSS -->
+				<section>
+					<h3>CSS</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="8-59">
+						<script type="text/template">
+
+							#controller {
+								background-color: green;
+								width: 440px;
+								height: 100px;
+							}
+							
+							/* ここから */
+							.controller-list {
+								margin: 0;
+								padding: 0;
+								list-style: none;
+								/* flex layout */
+								display: grid;
+								grid-template-columns: 1fr 1fr 1fr;
+								column-gap: 0px;
+								row-gap: 5px;
+							}
+							
+							.controller-item1 {
+								margin-top: 10px;
+								padding: 0;
+								grid-column-start: 1;
+								grid-column-end: 4;
+							}
+							
+							.controller-item2,
+							.controller-item3,
+							.controller-item4 {
+								margin: auto;
+								padding: 0;
+							}
+							
+							/* セレクトリスト */
+							.select {
+								height: 30px;
+								width: 100%;
+								margin-bottom: 10px;
+								font-size: 16px;
+								border-radius: 5px;
+							}
+							
+							/* ボタン */
+							.btn {
+								height: 30px;
+								width: 140px;
+								margin-bottom: 10px;
+								font-size: 14px;
+								color: #ffffff;
+								background-color: #495057;
+								border-width: 0px;
+								border-radius: 10px;
+							}
+							
+							.btn:hover {
+								background-color: #ffffff;
+								border-color: #495057;
+								border-width: 1px;
+								color: #495057;
+							}
+							
+							/* ここまで */
+							
+							/* スコアエリア */
+							#score {
+								background-color: yellow;
+								width: 440px;
+								height: 800px;
+							}
+						</script>
+					</code></pre>
+				</section>
+
+				<!-- slide: JavaScript -->
+				<section>
+					<h3>JavaScript</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="">
+						<script type="text/template">
+
+							// 年次設定（言語 ("en"/"ja") は<html>のlang属性で設定 ）
+								const year = "2023"
+								let lang = document.documentElement.lang === "ja" ? "jp" : document.documentElement.lang;
+								const path = "./json/gpci" + year + "_" + lang + ".json"
+								
+								/* ----------------------------------------------------------------------------
+								 使用方法（ヘルプメニュー）
+								---------------------------------------------------------------------------- */
+								
+								switch (lang) {
+									case "en":
+										document.getElementById("desc7").textContent = "-- Select a city --";
+										document.getElementById("show").value = "Show scores";
+										document.getElementById("sim").value = "Simulate";
+										document.getElementById("reset").value = "Reset";
+										break;
+									case "jp":
+										document.getElementById("desc7").textContent = "-- 都市を選択 --";
+										document.getElementById("show").value = "スコア表示";
+										document.getElementById("sim").value = "シミュレーション";
+										document.getElementById("reset").value = "リセット";
+										break;
+								}
+								
+								/* ----------------------------------------------------------------------------
+								 GPCIデータ読み込み
+								---------------------------------------------------------------------------- */
+								// AjaxでJSONデータをロードする(同期処理(async:false))
+								let gpci_all4ini = [];
+								$.ajax({
+									url: path,
+									dataType: 'json',
+									async: false,
+									success: function (json) {
+										gpci_all4ini = json;
+									}
+								});
+								
+								let gpci_all4sim = [];
+								$.ajax({
+									url: path,
+									dataType: 'json',
+									async: false,
+									success: function (json) {
+										gpci_all4sim = json;
+									}
+								});
+								
+								
+								/* ----------------------------------------------------------------------------
+								 レイアウト設定
+								---------------------------------------------------------------------------- */
+								// 対象都市のセレクトリスト：テンプレート文字列でリスト作成
+								for (let item of gpci_all4ini) {
+									const option = `<option value=${item["City Name"]}>${item["City Name"]}</option>`
+									document.getElementById("city").insertAdjacentHTML("beforeend", option);
+								};
+								
+						</script>
+					</code></pre>
+				</section>
+
+			</section>
+
+			<!-- V-slide: 03 Table -->
+			<section>
+				<section data-transition="convex">03 Table</section>
+
+				<!-- slide: Output -->
+				<section data-fullscreen="true">
+					<h3>03 Table: OUTPUT</h3>
+					<iframe class="stretch" data-src="./gpci-simulator/03_table.html" data-preload frameborder="0"
+						allowfullscreen></iframe>
+				</section>
+
+				<!-- slide: HTML -->
+				<section>
+					<h3>HTML</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="4-12">
+						<script type="text/template">
+							<div id="score">
+								<!-- ここから　-->
+								<!-- スコアテーブル -->
+								<table class="table" border="1">
+									<thead>
+										<tr>
+											<th id="table-header1"></th>
+											<th id="table-header2"></th>
+										</tr>
+									</thead>
+									<tbody id="indicators"></tbody>
+								</table>
+								<!-- ここまで　-->
+							</div>
+						</script>
+					</code></pre>
+				</section>
+
+				<!-- slide: CSS -->
+				<section>
+					<h3>CSS</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="10-139">
+						<script type="text/template">
+
+							/* スコアエリア */
+							#score {
+								background-color: yellow;
+								width: 440px;
+								height: 800px;
+							}
+							
+							/* ここから */
+							/* スコアテーブル */
+							.table {
+								border-collapse: collapse;
+								font-weight: lighter;
+								font-family: Arial, Helvetica, sans-serif;
+								width: 100%;
+							}
+							
+							.function {
+								text-align: left;
+								text-indent: 5px;
+								cursor: pointer;
+							}
+							
+							.indicator {
+								text-align: left;
+								text-indent: 15px;
+								cursor: pointer;
+								display: none;
+							}
+							
+							thead {
+								color: #ffffff;
+								background-color: #495057;
+							}
+							
+							.Ec {
+								background-color: rgba(145, 112, 153, .8);
+							}
+							
+							.Re {
+								background-color: rgba(115, 140, 172, .8);
+							}
+							
+							.Cu {
+								background-color: rgba(222, 129, 154, .8);
+							}
+							
+							.Li {
+								background-color: rgba(113, 194, 222, .8);
+							}
+							
+							.En {
+								background-color: rgba(156, 184, 102, .8);
+							}
+							
+							.Ac {
+								background-color: rgba(238, 170, 61, .8);
+							}
+							
+							td {
+								width: 100px;
+								text-align: center;
+								text-indent: 0px;
+								background-color: #495057;
+							}
+							
+							.th_Ec,
+							.th_Re,
+							.th_Cu,
+							.th_Li,
+							.th_En,
+							.th_Ac {
+								text-align: left;
+								font-size: 12px;
+							}
+							
+							.th_Ec {
+								background-color: rgba(145, 112, 153, 0.5);
+							}
+							
+							.th_Re {
+								background-color: rgba(115, 140, 172, 0.5);
+							}
+							
+							.th_Cu {
+								background-color: rgba(222, 129, 154, 0.5);
+							}
+							
+							.th_Li {
+								background-color: rgba(113, 194, 222, 0.5);
+							}
+							
+							.th_En {
+								background-color: rgba(156, 184, 102, 0.5);
+							}
+							
+							.th_Ac {
+								background-color: rgba(238, 170, 61, 0.5);
+							}
+							
+							.td_Ec,
+							.td_Re,
+							.td_Cu,
+							.td_Li,
+							.td_En,
+							.td_Ac {
+								font-size: 12px;
+							}
+							
+							.td_Ec {
+								background-color: rgba(145, 112, 153, .3);
+							}
+							
+							.td_Re {
+								background-color: rgba(115, 140, 172, .3);
+							}
+							
+							.td_Cu {
+								background-color: rgba(222, 129, 154, .3);
+							}
+							
+							.td_Li {
+								background-color: rgba(113, 194, 222, .3);
+							}
+							
+							.td_En {
+								background-color: rgba(156, 184, 102, .3);
+							}
+							
+							.td_Ac {
+								background-color: rgba(238, 170, 61, .3);
+							}
+							
+							.inputTable {
+								border: none;
+								margin: auto;
+								width: 100px;
+								text-align: center;
+								background-color: transparent;
+							}
+							
+							/* ここまで */
+							
+							/* ----------------------------------------------------------------------------
+							　アウトプットエリア
+							---------------------------------------------------------------------------- */
+						</script>
+					</code></pre>
+				</section>
+
+				<!-- slide: JavaScript -->
+				<section>
+					<h3>JavaScript</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="11-118">
+						<script type="text/template">
+							/* ----------------------------------------------------------------------------
+							レイアウト設定
+						   ---------------------------------------------------------------------------- */
+						   // 対象都市のセレクトリスト：テンプレート文字列でリスト作成
+						   for (let item of gpci_all4ini) {
+							   const option = `<option value=${item["City Name"]}>${item["City Name"]}</option>`
+							   document.getElementById("city").insertAdjacentHTML("beforeend", option);
+						   };
+						   
+						   // ここから
+						   // 指標リスト：スコアデータから指標の部分を抽出する。
+						   var indicators = Object.keys(gpci_all4ini[0]).slice(1, 71)
+						   
+						   // スコアテーブル：テンプレート文字列で作成（条件分岐で経済指標に「style="display: table-row;"」を付与）
+						   for (let item of indicators) {
+							   if (item.split("_")[2] === "Ec") {
+								   const tr = `<tr class="indicator heading_${item.split("_")[2]}" style="display: table-row;">
+												 <th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th>
+												 <td class="td_${item.split("_")[2]}">
+												   <input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable">
+												 </td>
+											   </tr>`
+								   document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
+							   } else {
+								   const tr = `<tr class="indicator heading_${item.split("_")[2]}">
+												 <th class="th_${item.split("_")[2]}">${item.split("_")[3]}</th>
+												 <td class="td_${item.split("_")[2]}">
+												   <input id="id_${item.split("_")[0]}" type="number" min="0" max="100" class="inputTable">
+												 </td>
+											   </tr>`
+								   document.getElementById("indicators").insertAdjacentHTML("beforeend", tr);
+							   }
+						   };
+						   
+						   // スコアテーブルに分野名のヘディングを挿入する（条件分岐で日英切替）。
+						   switch (lang) {
+							   case "en":
+								   var Ec_heading = '<tr class="function"><th colspan="2" class="Ec"><span class="open">＋</span><span class="close">－</span>Economy</th></tr>'
+								   document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
+								   var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><span class="open">＋</span><span class="close">－</span>Research and Development</th></tr>'
+								   document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
+								   var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><span class="open">＋</span><span class="close">－</span>Cultural Interaction</th></tr>'
+								   document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
+								   var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><span class="open">＋</span><span class="close">－</span>Livability</th></tr>'
+								   document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
+								   var En_heading = '<tr class="function"></th><th colspan="2" class="En"><span class="open">＋</span><span class="close">－</span>Environment</th></tr>'
+								   document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
+								   var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><span class="open">＋</span><span class="close">－</span>Accesibility</th></tr>'
+								   document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
+								   break;
+							   case "jp":
+								   var Ec_heading = '<tr class="function"></th><th colspan="2" class="Ec"><span class="open">＋</span><span class="close">－</span>経済</th></tr>'
+								   document.getElementsByClassName("heading_Ec")[0].insertAdjacentHTML("beforebegin", Ec_heading)
+								   var Re_heading = '<tr class="function"></th><th colspan="2" class="Re"><span class="open">＋</span><span class="close">－</span>研究・開発</th></tr>'
+								   document.getElementsByClassName("heading_Re")[0].insertAdjacentHTML("beforebegin", Re_heading)
+								   var Cu_heading = '<tr class="function"></th><th colspan="2" class="Cu"><span class="open">＋</span><span class="close">－</span>文化・交流</th></tr>'
+								   document.getElementsByClassName("heading_Cu")[0].insertAdjacentHTML("beforebegin", Cu_heading)
+								   var Li_heading = '<tr class="function"></th><th colspan="2" class="Li"><span class="open">＋</span><span class="close">－</span>居住</th></tr>'
+								   document.getElementsByClassName("heading_Li")[0].insertAdjacentHTML("beforebegin", Li_heading)
+								   var En_heading = '<tr class="function"></th><th colspan="2" class="En"><span class="open">＋</span><span class="close">－</span>環境</th></tr>'
+								   document.getElementsByClassName("heading_En")[0].insertAdjacentHTML("beforebegin", En_heading)
+								   var Ac_heading = '<tr class="function"></th><th colspan="2" class="Ac"><span class="open">＋</span><span class="close">－</span>交通・アクセス</th></tr>'
+								   document.getElementsByClassName("heading_Ac")[0].insertAdjacentHTML("beforebegin", Ac_heading)
+								   break;
+						   }
+						   
+						   
+						   /* ----------------------------------------------------------------------------
+							アコーディオンパネル（分野別スコアの表示/非表示切り替え）
+						   ---------------------------------------------------------------------------- */
+						   jQuery(function () {
+						   
+							   // 初期設定
+							   $(".open:first").css("display", "none");
+							   $(".close:not(:first)").css("display", "none");
+						   
+							   // イベント処理（openボタン押下）
+							   $(".open").on("click", function () {
+								   $(".open").css("display", "");
+								   $(".close").css("display", "none");
+						   
+								   // 要素を取得する。
+								   var parent = $(this).parents(".function");
+								   var children = parent.nextUntil(".function").filter(".indicator")
+						   
+								   // 表示を切り替える。
+								   $(".indicator").hide()
+								   children.toggle(children.first().is(":hidden"))
+						   
+								   // +/-ラベルを切り替える。
+								   $(this).hide();
+								   $(this).next().show();
+							   });
+						   
+							   // イベント処理（closeボタン押下）
+							   $(".close").on("click", function () {
+						   
+								   // 要素を取得する。
+								   var parent = $(this).parents(".function");
+								   var children = parent.nextUntil(".function").filter(".indicator")
+						   
+								   // 表示を切り替える。
+								   $(".indicator").hide()
+								   //children.toggle(children.first().is(":hidden"))
+						   
+								   // +/-ラベルを切り替える。
+								   $(this).hide();
+								   $(this).prev().show();
+							   });
+						   });
+						   
+						   // 数値変更セルのハイライト
+						   jQuery(function () {
+							   var cell = $('.inputTable');
+							   cell.change(function () {
+								   $(this).addClass('active');
+							   });
+						   });
+						   // ここまで
+						</script>
+					</code></pre>
+				</section>
+
+			</section>
+
+
+			<!-- V-slide: 0X Template -->
+			<section>
+				<section data-transition="convex">0X Template</section>
+
+				<!-- slide: Output -->
+				<section data-fullscreen="true">
+					<h3>0X Template: OUTPUT</h3>
+					<iframe class="stretch" data-src="./gpci-simulator/02_form.html" data-preload frameborder="0"
+						allowfullscreen></iframe>
+				</section>
+
+				<!-- slide: HTML -->
+				<section>
+					<h3>HTML</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="">
+						<script type="text/template">
+
+						</script>
+					</code></pre>
+				</section>
+
+				<!-- slide: CSS -->
+				<section>
+					<h3>CSS</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="">
+						<script type="text/template">
+
+						</script>
+					</code></pre>
+				</section>
+
+				<!-- slide: JavaScript -->
+				<section>
+					<h3>JavaScript</h3>
+					<pre><code data-trim data-noescape style="font-size: 0.7em; line-height:1.3;" data-line-numbers="">
+						<script type="text/template">
+
+						</script>
+					</code></pre>
+				</section>
+
+			</section>
+
+
 		</div>
+	</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script src="plugin/copycode/copycode.js"></script>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen ]
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
 
-			});
-		</script>
-	</body>
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen, CopyCode]
+
+		});
+	</script>
+</body>
+
 </html>
