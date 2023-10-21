@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>gpci-simulator-demo</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -12,12 +12,42 @@
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<!-- Fullscreen plugin -->
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/fullscreen/plugin.js"></script>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<!-- slide -->
+				<section data-transition="convex">GPCI-Simulator Lecture</section>
+				
+				<!-- slide -->
+				<section data-transition="fade">
+					<h2>Table of Contents</h2>
+					<ul>
+						<li><a href="#/2">01 Layout</a></li>
+						<li><a href="#/3">02 Form</a></li>
+						<li><a href="#/3">03 Table</a></li>
+						<li><a href="#/4">04 Legend</a></li>
+						<li><a href="#/5">05 Graph</a></li>
+						<li><a href="#/6">06 Target</a></li>
+						<li><a href="#/7">07 Simulate</a></li>
+						<li><a href="#/8">08 Modal</a></li>
+						<li><a href="#/9">09 Responsive</a></li>
+					</ul>
+				</section>
+
+				<!-- slide -->
+				<section>
+
+					<section data-transition="convex">01 Layout</section>
+					
+					<!-- slide -->
+					<section data-transition="fade" data-fullscreen="true">
+						<iframe class="stretch" data-src="./gpci-simulator/01_layout.html" data-preload frameborder="0" allowfullscreen></iframe>
+					</section>
+					
+				</section>
 			</div>
 		</div>
 
@@ -33,7 +63,8 @@
 				hash: true,
 
 				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen ]
+
 			});
 		</script>
 	</body>
