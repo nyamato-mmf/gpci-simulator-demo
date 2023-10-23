@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<title>gpci-simulator-demo</title>
+	<link rel="icon" href="favicon.ico">
 
 	<link rel="stylesheet" href="dist/reset.css">
 	<link rel="stylesheet" href="dist/reveal.css">
@@ -44,13 +45,16 @@
 
 			<!-- slide: GPCI-Simulator -->
 			<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
+				<h2>GPCI-Simulator</h2>
 				<iframe class="stretch" data-src="./gpci-simulator/index.html" data-preload frameborder="0"
 					allowfullscreen></iframe>
 			</section>
 
 			<!-- V-slide: 01 Layout -->
 			<section>
-				<section data-transition="convex">01 Layout</section>
+				<section data-transition="convex">
+					<h2>01 Layout</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -212,7 +216,9 @@
 
 			<!-- V-slide: 02 Form -->
 			<section>
-				<section data-transition="convex">02 Form</section>
+				<section data-transition="convex">
+					<h2>02 Form</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -418,7 +424,9 @@
 
 			<!-- V-slide: 03 Table -->
 			<section>
-				<section data-transition="convex">03 Table</section>
+				<section data-transition="convex">
+					<h2>03 Table</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -738,7 +746,9 @@
 
 			<!-- V-slide: 04 Legend -->
 			<section>
-				<section data-transition="convex">04 Legend</section>
+				<section data-transition="convex">
+					<h2>04 Legend</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -892,7 +902,9 @@
 
 			<!-- V-slide: 05 Graph -->
 			<section>
-				<section data-transition="convex">05 Graph</section>
+				<section data-transition="convex">
+					<h2>05 Graph</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -1086,7 +1098,9 @@
 
 			<!-- V-slide: 06 Target -->
 			<section>
-				<section data-transition="convex">06 Target</section>
+				<section data-transition="convex">
+					<h2>06 Target</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -1150,7 +1164,9 @@
 
 			<!-- V-slide: 07 Simulate -->
 			<section>
-				<section data-transition="convex">07 Simulate</section>
+				<section data-transition="convex">
+					<h2>07 Simulate</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -1441,7 +1457,9 @@
 
 			<!-- V-slide: 08 Modal -->
 			<section>
-				<section data-transition="convex">08 Modal</section>
+				<section data-transition="convex">
+					<h2>08 Modal</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -1689,7 +1707,9 @@
 
 			<!-- V-slide: 09 Responsive -->
 			<section>
-				<section data-transition="convex">09 Responsive</section>
+				<section data-transition="convex">
+					<h2>09 Responsive</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true" data-background-color="rgb(255, 255, 255)">
@@ -1803,7 +1823,9 @@
 
 			<!-- V-slide: 0X Template -->
 			<section>
-				<section data-transition="convex">0X Template</section>
+				<section data-transition="convex">
+					<h2>0X Template</h2>
+				</section>
 
 				<!-- slide: Output -->
 				<section data-fullscreen="true">
@@ -1853,6 +1875,8 @@
 	<script src="plugin/markdown/markdown.js"></script>
 	<script src="plugin/highlight/highlight.js"></script>
 	<script src="plugin/copycode/copycode.js"></script>
+	<script src="plugin/menu/menu.js"></script>
+	<script src="plugin/pdfexport/pdfexport.js"></script>
 
 	<script>
 		// More info about initialization & config:
@@ -1863,7 +1887,14 @@
 			hash: true,
 
 			// Learn about plugins: https://revealjs.com/plugins/
-			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen, CopyCode]
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealFullscreen, CopyCode, RevealMenu, PdfExport],
+
+			menu: {
+				titleSelector: 'h1, h2',
+				// Hide slides from the menu that do not have a title.
+				// Set to 'true' to only list slides with titles.
+				hideMissingTitles: true,
+			},
 
 		});
 	</script>
