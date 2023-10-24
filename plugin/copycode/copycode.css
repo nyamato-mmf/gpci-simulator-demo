@@ -38,7 +38,7 @@
   display: none;
 }
 .codeblock > button {
-  opacity: 0.5;
+  opacity: 0.9;
   z-index: 1;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -54,10 +54,10 @@
   margin: 0;
   padding: 0.2em 0.5em;
   font-family: inherit;
-  font-size: 1.5rem;
+  font-size: 1.0rem;
   border-radius: 0;
   border-radius: calc(var(--cc-radius, 0) * 1em);
-  font-size: calc(var(--cc-scale, 1) * 1.5rem);
+  font-size: calc(var(--cc-scale, 1) * 1.0rem);
   line-height: 1.25em;
   -webkit-user-select: none;
   -moz-user-select: none;
